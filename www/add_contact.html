@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="initial-scale=1, width=device-width, height=device-height, viewport-fit=cover">
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+    <link rel="stylesheet" href="css/asd.min.css" />
+    <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
+    <link rel="stylesheet" href="css/jqm-demos.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Share The Oils</title>
+</head>
+
+<body>
+    <div data-role="page" id="add_contact" data-theme="a">
+        <div data-role="panel" id="mypanel">
+            <!-- panel content goes here -->
+            <ul>
+                <li><a href="#">Menu 1</a></li>
+                <li><a href="#">Menu 2</a></li>
+                <li><a href="#">Menu 3</a></li>
+                <li><a href="#">Menu 4</a></li>
+                <li><a href="#">Menu 5</a></li>
+                <li><a id="logout" href="#">Logout</a></li>
+            </ul>
+        </div><!-- /panel -->
+        <div class="header" data-role="header" data-position="inline">
+            <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+            <h1>Share the Oils</h1>
+        </div>
+        <div data-role="content" data-theme="a">
+
+            <div id="result-add-contact"></div>
+            <div id="contact-form">
+                <form id="add-contact-form" method="POST" action="#">
+                    
+                    <input type="hidden" id="uid" name="uid" value="">
+
+                    <input type="text" id="" name="email" placeholder="Email" value="">
+                    <input type="text" id="" name="first_name" placeholder="First Name" value="">
+                    <input type="text" id="" name="last_name" placeholder="Last Name" value="">
+                    <input type="text" id="" name="phone" placeholder="Phone" value="">
+                    <input type="text" id="" name="phone_alt" placeholder="Alt Phone" value="">
+                    <input type="text" id="" name="address" placeholder="Address" value="">
+                    <input type="text" id="" name="city" placeholder="City" value="">
+                    <input type="text" id="" name="state" placeholder="State" value="">
+                    <input type="text" id="" name="zip" placeholder="Zip" value="">
+                    <input type="text" id="" name="state" placeholder="State" value="">
+                    <textarea name="notes" placeholder="Notes"></textarea>
+                    <input id="add-contact-btn" type="button" data-mini="true" name="" value="Add Contact">
+                    <a href="" class="ui-btn ui-corner-all" data-mini="true">Back</a>
+                </form>
+            </div>
+
+            <div id="add-contact-success" style="display: none;">
+                
+            </div>
+        </div>
+        <div class="footer" data-role="footer" data-position="fixed">        
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="dashboard.html" rel="external" data-transition="slide">Today</a></li>
+                    <li><a href="#">Prospects</a></li>
+                    <li><a href="#">Add</a></li>
+                    <li><a href="#">Email</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /footer -->
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+        FUNC.initialize('add_contact');
+        FUNC.user.addButtonFunctions();
+        FUNC.user.checkUser();
+        FUNC.contact.addContact();
+    </script>
+</body>
+
+</html>
