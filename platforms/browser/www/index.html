@@ -37,23 +37,26 @@
     * Create your own at http://cspisawesome.com
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
     <link rel="stylesheet" href="css/jqm-demos.css">
     <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
     <title>Share The Oils</title>
 </head>
 
 <body>
-    
+
     <!-- Start of universal footer -->
     <div id="universal-footer" data-role="footer" data-position="fixed" data-tap-toggle="false" style="display: none;">
         <div data-role="navbar">
             <ul>
-                <li><a href="#today" data-transition="slide">Today</a></li>
-                <li><a href="#tabTwo">Prospects</a></li>
-                <li><a href="#add_contact" data-transition="slide">Add</a></li>
-                <li><a href="#tabTwo">Email</a></li>
-                <li><a href="#tabTwo">Help</a></li>
+                <li><a id="page_today" href="#today" data-href="today"><i class="fa fa-calendar"></i><br>Today</a></li>
+                <li><a id="page_prospect" href="#prospect" data-href="prospect"><i class="fa fa-user"></i><br>Prospects</a></li>
+                <li><a id="page_add_contact" href="#add_contact" data-href="add_contact"><i class="fa fa-plus-circle"></i><br>Add</a></li>
+                <li><a id="page_email" href="#email_dialog"><i class="fa fa-envelope"></i><br>Email</a></li>
+                <li><a id="page_settings" href="#page_settings"><i class="fa fa-question-circle"></i><br>Help</a></li>
             </ul>
         </div>
     </div>
@@ -61,23 +64,39 @@
     <!-- Start of first page -->
     <div data-role="page" id="login">
 
-        <div class="login-bg">
-            <img src="images/bg_img.jpg">
-        </div>
         <div class="app">
 
             <div id="result"></div>
 
             <div class="login-logo">
-                <img src="images/quickflip-logo-new.png" style="margin-left: -6.5%;margin-bottom: 5%;">
+                  <img src="images/logosc.png" style="margin-bottom: 18%;">
             </div>
 
             <div class="login-content">
                 <a id="today_btn" href="#today" data-transition="slideup" style="visibility: hidden;">bar</a>
                 <form id="login-form" method="POST" action="#">
-                    <input type="text" id="login_username" name="login_username" placeholder="Email" value="">
-                    <input type="password" id="login_password" name="login_username" placeholder="Password" value="" autocomplete="off">
-                    <input id="login_btn" type="button" data-mini="true" name="" value="Login">
+                    <div id="loginformwrapper">
+                    <div id="usercircle">
+                        <img src="https://members.simpleconnector.com/dashboard/svg/user_circle_white.svg" width="58">
+                    </div>
+
+                    <!-- <h1 class="h3 mb-0 font-weight-light">Sign In</h1> -->
+                        <input type="hidden" name="page_from" value="qfsso" />
+
+                        <label for="inputEmail" class="sr-only">Username</label>
+                        <input type="email" id="login_username" name="login_username" placeholder="EMAIL" value="">
+
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" id="login_password" name="login_username" placeholder="PASSWORD" value="" autocomplete="off">
+
+                        <input id="login_btn" class="foo" type="button" data-mini="true" name="" value="Login">
+                    </div>
+
+                    <p class="mt-3 mb-3" style="color:#f8267f;font-size:13px">
+                        <a id="forgot_password_link" href="#" data-target="#reset_password" data-toggle="modal" data-trigger="modal" style="color: #f8267f;text-decoration: none;text-shadow: 1px 1px 5px #fff;font-size: 13px;font-weight: 400;">
+                            Forgot Password?
+                        </a>
+                    </p>
                 </form>
             </div>
         </div>
@@ -97,20 +116,168 @@
                 <li><a id="logout" href="#">Logout</a></li>
             </ul>
         </div><!-- /panel -->
-        <div class="header" data-role="header" data-position="inline">
-            <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
-            <h1>Share the Oils</h1>
-        </div>
-        <div data-role="content" data-theme="a">
-            <div>
-                <img src="images/placeholder-image.png" style="width: 100%">
+
+        <h1>Todays Task</h1>
+
+        <div style="width: 100%; overflow: auto;margin-top: 35%;" id="todaylist_tasks">
+
+            <div id="todays_content_wrapper">
+
+                <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="todays_content">
+
+
+                </div>
+
             </div>
 
-            <div>
-                <img src="images/placeholder-image.png" style="width: 100%">
-            </div>
         </div>
     </div><!-- /page -->
+
+
+    <!--Prospect -->
+    <div data-role="page" id="prospect" data-theme="a">
+
+        <div data-role="panel" id="mypanel">
+            <!-- panel content goes here -->
+            <ul>
+                <li><a href="#">Menu 1</a></li>
+                <li><a href="#">Menu 2</a></li>
+                <li><a href="#">Menu 3</a></li>
+                <li><a href="#">Menu 4</a></li>
+                <li><a href="#">Menu 5</a></li>
+                <li><a id="logout" href="#">Logout</a></li>
+            </ul>
+        </div><!-- /panel -->
+        <div class="header" data-role="header" data-position="inline">
+            <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+            </div>
+
+        </div>
+        <div data-role="content" id="prospectpage" data-theme="a">
+
+          <div id="prospectwrapper">
+            <div class="prospectheader-fixed">
+            <ul class="nav nav-tabs">
+              <li class="nav-item active">
+                <a data-toggle="tab" class="nav-link active" href="#allcontacts">All</a>
+              </li>
+              <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#todayscall">Today's Call</a>
+              </li>
+              <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#lastdays">Last 7 Days</a>
+              </li>
+              <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" href="#teamcontacts">Team</a>
+              </li>
+            </ul>
+
+            <div id="contactsearch">
+              <input type="search" class="form-control" placeholder="Search" aria-controls="datatable_contacts">
+            </div>
+            <div id="contactoptions">
+              <ul>
+                <li id="emailcontact"><button id="email-composer-btn" class="ui-btn">Email</button></li>
+                <li id="deletecontact"><input id="delete-contact-btn" type="button" value="Delete"></li>
+                <li id="deletecontact"><button id="sync-contact-btn" class="ui-btn">Sync</button></li>
+              </ul>
+
+            </div>
+          </div><!-- wrapper -->
+            <div class="tab-content">
+                <div id="allcontacts" class="tab-pane fade in active">
+
+                    <div style="width: 100%; overflow: auto">
+
+                      <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="contact_table">
+
+
+                      </div>
+                    </div>
+                </div>
+                <div id="todayscall" class="tab-pane fade">
+
+                  <div style="width: 100%; overflow: auto">
+                  <!--    <div id="contact_tables">
+
+                      <ul>
+                        <div class="contactimage align-left"><input type="checkbox"/></div>
+                        <div class="align-left contact_info">
+                        <li>Last Name First Name</li>
+                        <li>Email</li>
+                        <li>Phone</li>
+                        <li>Campaign</li>
+                        <li>Group</li>
+                        </div>
+                      </ul>
+                    </div>
+                    -->
+                    <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="todayscall_contact">
+
+
+                    </div>
+                  </div>
+
+
+
+                </div>
+                <div id="lastdays" class="tab-pane fade">
+
+                  <div style="width: 100%; overflow: auto">
+                  <!--    <div id="contact_tables">
+
+                      <ul>
+                        <div class="contactimage align-left"><input type="checkbox"/></div>
+                        <div class="align-left contact_info">
+                        <li>Last Name First Name</li>
+                        <li>Email</li>
+                        <li>Phone</li>
+                        <li>Campaign</li>
+                        <li>Group</li>
+                        </div>
+                      </ul>
+                    </div>
+                    -->
+                    <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="lastdaysdata">
+
+
+                    </div>
+                  </div>
+
+                </div>
+                <div id="teamcontacts" class="tab-pane fade">
+
+                  <div style="width: 100%; overflow: auto">
+                  <!--    <div id="contact_tables">
+
+                      <ul>
+                        <div class="contactimage align-left"><input type="checkbox"/></div>
+                        <div class="align-left contact_info">
+                        <li>Last Name First Name</li>
+                        <li>Email</li>
+                        <li>Phone</li>
+                        <li>Campaign</li>
+                        <li>Group</li>
+                        </div>
+                      </ul>
+                    </div>
+                    -->
+                    <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="teamdata">
+
+
+                    </div>
+                  </div>
+
+                </div>
+            </div>
+
+          </div>
+
+        </div>
+    </div><!-- /page -->
+
+
 
     <!-- Start of second page -->
     <div data-role="page" id="add_contact" data-theme="a">
@@ -127,49 +294,209 @@
             </ul>
         </div><!-- /panel -->
         <div class="header" data-role="header" data-position="inline">
-            <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
-            <h1>Share the Oils</h1>
+            <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+            </div>
         </div>
         <div data-role="content" data-theme="a">
 
-            <div id="result-add-contact"></div>
+            <a id="contact_error_btn" href="#contact_error" data-rel="dialog" data-transition="pop" style="visibility: hidden;">Open dialog</a>
+
             <div id="contact-form">
                 <form id="add-contact-form" method="POST" action="#"  data-ajax="false">
-                    <input type="text" id="" name="email" placeholder="Email" value="">
-                    <input type="text" id="" name="first_name" placeholder="First Name" value="">
-                    <input type="text" id="" name="last_name" placeholder="Last Name" value="">
-                    <input type="text" id="" name="phone" placeholder="Phone" value="">
-                    <input type="text" id="" name="phone_alt" placeholder="Alt Phone" value="">
-                    <input type="text" id="" name="address" placeholder="Address" value="">
-                    <input type="text" id="" name="city" placeholder="City" value="">
-                    <input type="text" id="" name="state" placeholder="State" value="">
-                    <input type="text" id="" name="zip" placeholder="Zip" value="">
-                    <input type="text" id="" name="state" placeholder="State" value="">
-                    <textarea name="notes" placeholder="Notes"></textarea>
-                    <input id="add-contact-btn" type="button" data-mini="true" name="" value="Add Contact">
+                  <div id="topheaderform">
+                    <ul>
+                      <li></li>
+                      <li><input id="new-contact-btn" type="button" data-mini="true" value="New Contact"></li>
+                      <li><input id="add-contact-btn" type="button" data-mini="true" class="custom_btn" name="" value="Save"></li>
+                    </ul>
+                  </div>
+
+                  <div id="formwrapper">
+
+                    <div id="result-add-contact"></div>
+
+
+                    <div class="formfield">
+                      <input type="text" id="first_name" name="first_name" placeholder="First Name" value="">
+                    </div>
+                    <div class="formfield">
+                      <input type="text" id="last_name" name="last_name" placeholder="Last Name" value="">
+                    </div>
+                    <div class="formfield">
+                      <input type="text" id="email" name="email" placeholder="example@email.com" value="" required>
+                    </div>
+                    <div class="formfield">
+                      <input type="text" id="phone" name="phone" placeholder="Phone Number" value="">
+                    </div>
+                    <div class="formfield">
+                      <textarea name="notes" placeholder="Write a note for this contact"></textarea>
+                    </div>
+                    <div class="formfield">
+                      <select id="campaigns" name="cp_gid">
+                          <option value="0">Select Campaign</option>
+                          <option value="17426">test campaign</option>
+                      </select>
+                    </div>
+                    <div class="formfield">
+                      <select id="group" name="gid">
+                          <option value="0">Select Group</option>
+                          <option value="193">Email Pending</option>
+                          <option value="202">Do Not Pipeline</option>
+                      </select>
+                    </div>
+                    <div class="formfield">
+                      <input type="text" id="referral_first_name" name="referral_first_name" placeholder="Referral First Name" value="">
+                    </div>
+                    <div class="formfield">
+                      <input type="text" id="referral_last_name" name="referral_last_name" placeholder="Referral Last Name" value="">
+                    </div>
+                    <div class="formfield">
+                      <input type="text" id="referral_email" name="referral_email" placeholder="Ref. Email" value="">
+                    </div>
+                    <div class="formfield">
+                      <input type="text" id="referral_phone" name="referral_phone" placeholder="Ref. Phone" value="">
+                    </div>
+                  </div>
                 </form>
             </div>
 
             <div id="add-contact-success" style="display: none;">
-                
+
             </div>
         </div>
     </div><!-- /page -->
 
-    <div id="hdn-inputs"></div>
+    <!-- Start of second page -->
+    <div data-role="page" id="sucess_page" data-theme="a">
 
+        <div data-role="panel" id="mypanel">
+            <!-- panel content goes here -->
+            <ul>
+                <li><a href="#">Menu 1</a></li>
+                <li><a href="#">Menu 2</a></li>
+                <li><a href="#">Menu 3</a></li>
+                <li><a href="#">Menu 4</a></li>
+                <li><a href="#">Menu 5</a></li>
+                <li><a id="logout" href="#">Logout</a></li>
+            </ul>
+        </div><!-- /panel -->
+        <div class="header" data-role="header" data-position="inline">
+            <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+            </div>
+            <h1>Share the Oils</h1>
+        </div>
+        <div data-role="content" data-theme="a">
+            <div style="padding-top: 20%;">
+                Success.  Your prospect is now added.
+
+                <a href="#prospect" data-mini="true" class="ui-btn custom_btn">Back</a>
+            </div>
+        </div>
+    </div><!-- /page -->
+
+    <!-- Start of second page -->
+    <div data-role="page" id="contact_error" data-theme="a">
+
+        <div data-role="content" data-theme="a">
+            <div style="padding-top: 20%;">
+                First and Last name should not be empty.
+            </div>
+        </div>
+    </div><!-- /page -->
+
+    <!-- Start of second page -->
+    <div data-role="page" id="dynamic_dialog" data-theme="a">
+
+        <div id="dialog_content" data-role="content" data-theme="a">
+            <div>
+                First and Last name should not be empty.
+            </div>
+        </div>
+    </div><!-- /page -->
+
+    <!-- Start of second page -->
+    <div data-role="page" id="email_dialog" data-theme="a">
+
+        <div id="dialog_content" data-role="content" data-theme="a">
+            <div style="padding-top: 20%;">
+
+                <form id="send-email-form" method="POST" action="#"  data-ajax="false">
+
+                  <div id="formwrapper">
+                    <div class="formfield">
+                      <input type="text" id="email_to" name="email_to" placeholder="To" value="">
+                    </div>
+                    <div class="formfield">
+                      <input type="text" id="email_subject" name="email_subject" placeholder="Subject" value="">
+                    </div>
+                    <div class="formfield">
+                      <input type="text" id="from" name="from" value="" placeholder="From" readonly>
+                    </div>
+                    <div class="formfield">
+                      <textarea id="email_body" name="email_body" placeholder="Write your message here"></textarea>
+                    </div>
+                    <div class="buttonwrapper">
+                    <div class="align-left">
+                      <input id="send-email-btn" style="background: #fff;" type="button" data-mini="true" class="custom_btn" name="" value="Send Email">
+                    </div>
+                    <div class="align-left">
+                      <a href="#prospect" data-mini="true" class="ui-btn custom_btn">Back</a>
+                    </div>
+                  </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div><!-- /page -->
+
+    <div data-role="page" id="page_settings" data-theme="a">
+
+        <div id="dialog_content" data-role="content" data-theme="a">
+            <div class="iconwrapper">
+              <div class="align-left">
+              <a href="#"> <img src="images/settings.png" width="50" />
+                Settings
+              </a>
+              </div>
+              <div class="align-left">
+                <a id="page_logout" href="#"><img src="images/out.png" width="50" />Log Out</a>
+              </div>
+            </div>
+        </div>
+    </div><!-- /page -->
+
+
+
+
+
+
+    <div id="hdn-inputs"></div>
+<script src="https://kit.fontawesome.com/acdfcd3575.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/datatables.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript">
         app.initialize();
-        FUNC.contact.addContact();
 
         $(document).on('pageinit', function() {
             //initialize required functions
             FUNC.init();
+            FUNC.user.logoutUser();
+            //FUNC.user.getCampaigns();
+            //FUNC.user.getGroups();
+            FUNC.contact.addContact();
+            FUNC.contact.removeContact();
+
+            if (localStorage.getItem('uid') !== null) {
+                FUNC.contact.init();
+                FUNC.user.getTodaysTask();
+            }
 
             $('#login_btn').on('tap', function(e){
                 //alert($("#login-form").serialize());
@@ -201,16 +528,24 @@
                             setTimeout(function(){
                                 //window.location.href='dashboard.html';
                                 $("#today_btn").click();
-                                $("div[data-role=footer]").slideToggle(200);
-                            },1500);
-                            
+                                //$("div[data-role=footer]").slideToggle(200);
+                                $("div[data-role=footer]").show();
+
+                                FUNC.contact.init();
+                                FUNC.user.getTodaysTask();
+                                //FUNC.user.showTodaysTask();
+                            },500);
+
                         }
                     }
                 });
                 e.preventDefault();
             });
+
+            //console.log(localStorage);
         });
     </script>
+
 </body>
 
 </html>
