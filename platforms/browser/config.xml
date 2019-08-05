@@ -6,9 +6,9 @@
     <feature name="Device">
         <param name="browser-package" value="Device" />
     </feature>
-    <name>Share the Oils</name>
+    <name>Simple Connector</name>
     <description>
-        Share the oils.
+        Simple Connector
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
@@ -26,6 +26,6 @@
     <preference name="android-minSdkVersion" value="14" />
     <preference name="StatusBarStyle" value="blacktranslucent" />
     <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarBackgroundColor" value="transparent" />
+    <preference name="StatusBarBackgroundColor" value="black" />
     <preference name="show-splash-screen-spinner" value="false" />
 </widget>
