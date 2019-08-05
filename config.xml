@@ -79,7 +79,7 @@
         <icon height="58" platform="ios" src="www/res/icon/ios/icon-small@2x.png" width="58" />
         <icon height="87" platform="ios" src="www/res/icon/ios/icon-small@3x.png" width="87" />
         <splash src="www/res/screen/ios/Default@2x~ipad~anyany.png" />
-          
+
     </platform>
     <platform name="wp8">
         <icon height="99" platform="wp8" src="www/res/icon/wp8/ApplicationIcon.png" width="99" />
@@ -116,6 +116,7 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <preference name="StatusBarStyle" value="blacktranslucent" />
     </platform>
 
 </widget>
