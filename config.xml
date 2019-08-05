@@ -112,6 +112,7 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <preference name="StatusBarStyle" value="white" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
