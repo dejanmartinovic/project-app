@@ -834,3 +834,15 @@ padding: 0 5px;
 select{
   -webkit-appearance: none;
 }
+.login-logo img{
+      width: 300px;
+}
+/*.contact_info h1 a{
+  position: relative;
+height: 85px;
+display: inline-block;
+width: 100%;
+}
+.contact_info li{
+    height: 16px;
+}*/
