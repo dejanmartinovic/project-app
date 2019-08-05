@@ -465,7 +465,7 @@ border-right: 0;
       border: none;
 }
 #formwrapper{
-  margin-top: 85px;
+  margin-top: 105px;
   position: relative;
 }
 #topheaderform{
@@ -481,8 +481,8 @@ border-right: 0;
 }
 #topheaderform ul{
   padding-left: 0;
-  height: 105px;
-  padding-top: 55px;
+  height: 120px;
+  padding-top: 70px;
   display: block;
   overflow: visible;
   border-bottom: 1px solid #eee;
@@ -712,6 +712,8 @@ font-weight: bold;
 }
 #today{
   background: #fff;
+  padding-top: 70px;
+  height: 100% !important;
 }
 
 #prospect .ui-panel-wrapper, .ui-panel-wrapper{
@@ -730,10 +732,12 @@ width: 100%;
 }
 .ui-mobile .ui-page-active{
       background: #fff !important;
+      height: 100%;
 }
 #dynamic_dialog .ui-dialog-contain{
   box-shadow: none;
 border-radius: 5px;
+    margin-top: 90px;
 }
 #dynamic_dialog #contact-email-composer-btn{
   border: 1px solid #f8267f;
@@ -817,6 +821,8 @@ border: none;
 }
 .viewcontactselect select{
   width: 100%;
+  border: none;
+padding: 0 5px;
 }
 .iconscontacts span{
   margin: 12px 0;
@@ -824,4 +830,7 @@ border: none;
 }
 #email_dialog #dialog_content{
   height: 710px;
+}
+select{
+  -webkit-appearance: none;
 }
