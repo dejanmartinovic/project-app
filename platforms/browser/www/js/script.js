@@ -445,7 +445,7 @@ var FUNC = {
 						edit_contact_content += '<div class="formfield">';
 						edit_contact_content += '<input type="text" id="last_name" name="last_name" placeholder="Last Name" value="'+contacts[i].last_name+'">';
 						edit_contact_content += '</div>';
-						
+
 						edit_contact_content += '<div class="formfield">';
 						edit_contact_content += '<input type="text" id="email" name="email" placeholder="Email" value="'+contacts[i].email+'">';
 						edit_contact_content += '</div>';
@@ -813,8 +813,8 @@ var FUNC = {
 
 			    		table_content_all_contacts += "<ul id='div-"+parsedContacts[i].cid+"' class='listcontactwrapper'>";
 						table_content_all_contacts += "<div class='contactcheck align-left'><label class='contactcheckwrap'><input type='checkbox' value='"+parsedContacts[i].cid+"' id='' name='checked_contact[]' class='contact-checkbox'/><span class='checkmark'></span></label></div>";
-						table_content_all_contacts += "<div class='align-left contact_info'>";
-						table_content_all_contacts += "<li><h1><a href='#' class='contact_details' data-cid='"+parsedContacts[i].cid+"'>"+parsedContacts[i].first_name+" "+parsedContacts[i].last_name+"</a></h1></li>";
+						table_content_all_contacts += "<div class='align-left contact_info contact_details'>";
+						table_content_all_contacts += "<li><h1><a href='#' class='contact_details_' data-cid='"+parsedContacts[i].cid+"'>"+parsedContacts[i].first_name+" "+parsedContacts[i].last_name+"</a></h1></li>";
 						table_content_all_contacts += "<li>"+parsedContacts[i].email+"</li>";
 	   					table_content_all_contacts += "<li>"+parsedContacts[i].phone+"</li>";
 
