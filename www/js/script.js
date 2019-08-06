@@ -18,11 +18,12 @@ var FUNC = {
 			$("[data-role='footer']").toolbar({theme: "a"});
 
 			var hash = location.hash.substr(1);
-			if (hash != "login") {
+			console.log(hash);
+			if (hash == "login" || hash == "") {
                 //$("div[data-role=footer]").slideToggle(200);
-                $("div[data-role=footer]").show();
+                $("div[data-role=footer]").hide();
             } else {
-            	$("div[data-role=footer]").hide();
+            	$("div[data-role=footer]").show();
             }
 
 			$.event.special.tap = {
@@ -287,8 +288,8 @@ var FUNC = {
 
 							div_task_content += "<ul id='div-"+call[i].contact.cid+"' class='listcontactwrapper'>";
 							//div_task_content += "<div class='contactcheck align-left'><label class='contactcheckwrap'><input type='checkbox' value='"+call[i].contact.cid+"' id='' name='checked_contact[]' class='contact-checkbox'/><span class='checkmark'></span></label></div>";
-							div_task_content += "<div class='align-left contact_info' style='padding-left: 10%;'>";
-							div_task_content += "<li><h1><a href='#' class='contact_details' data-cid='"+call[i].contact.cid+"'>"+call[i].contact.first_name+" "+call[i].contact.last_name+"</a></h1></li>";
+							div_task_content += "<div class='align-left contact_info contact_details' data-cid='"+call[i].contact.cid+"' style='padding-left: 10%;'>";
+							div_task_content += "<li><h1><a href='#' class='' >"+call[i].contact.first_name+" "+call[i].contact.last_name+"</a></h1></li>";
 							div_task_content += "<li>"+k+" - "+formattedDate+"</li>";
 		   					//div_task_content += "<li>"+call[i].contact.phone+"</li>";
 
@@ -302,15 +303,15 @@ var FUNC = {
 
 				$("#todays_content").html(div_task_content);
 
-				$('.contact_details').on('vclick', function(e) {
+				$('.contact_details').on('mouseup touchend', function(e) {
 		        	e.stopImmediatePropagation();
-					//console.log(e.currentTarget.attributes[2].nodeValue);
-
-					var contact_cid = e.currentTarget.attributes[2].nodeValue;
+					console.log(e);
+					//alert("touchend");
+					var contact_cid = e.currentTarget.attributes[1].nodeValue;
 
 					//$("#view_contact_back_btn").attr("href","#today");
 
-					FUNC.user.showContactDetails(contact_cid, "today");
+					FUNC.user.showContactDetailsTask(contact_cid);
 
 				});
 			}
@@ -319,13 +320,7 @@ var FUNC = {
 
 		},
 
-		showContactDetails: function(cid, page_from = null) {
-
-			if (page_from != null) {
-				page_from = "#"+page_from;
-			} else {
-				page_from = "#prospect";
-			}
+		showContactDetails: function(cid) {
 
 			if (typeof localStorage.getItem('contacts') !== 'undefined' && localStorage.getItem('contacts') !== null) {
 
@@ -351,7 +346,7 @@ var FUNC = {
 						contact_details_content += "<div class='iconwrappercontact'>";
 						contact_details_content += "<div class='iconscontacts align-left'><img src='images/phoneicon.png' width='40'/><span>Call</span></div>";
 						contact_details_content += "<div class='iconscontacts align-left'><img src='images/chaticon.png' width='40'/><span>Text</span></div>";
-						contact_details_content += "<div class='iconscontacts align-left'><img src='images/emailicon.png' width='40'/><span>Email</span></div>";
+						contact_details_content += "<div class='iconscontacts align-left' id='email-composer-btn'><img src='images/emailicon.png' width='40'/><span>Email</span></div>";
 						contact_details_content += "<div class='iconscontacts align-left edit_contact_btn' data-cid='"+contacts[i].cid+"'><img src='images/editicon.png' width='40'/><span>Edit</span></div>";
 						contact_details_content += "</div>";
 						contact_details_content += "<div class='viewcontactselect ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow'>";
@@ -362,11 +357,13 @@ var FUNC = {
 						contact_details_content += "</div>";
 						contact_details_content += "<div>Appointments</div><div>Email</div><div>Tasks</div>";
 						//contact_details_content += '<button id="contact-email-composer-btn" class="ui-btn">Email</button>';
-						contact_details_content += '<a href="'+page_from+'" data-mini="true" class="ui-btn custom_btn"><img src="images/backarrow.png" width="10"/></a>';
+						contact_details_content += '<a href="#prospect" data-mini="true" class="ui-btn custom_btn"><img src="images/backarrow.png" width="10"/></a>';
 
 					}
 
 				}
+
+				console.log(contact_details_content);
 
 				$("#dynamic_dialog #dialog_content div").html(contact_details_content);
 	            $.mobile.changePage("#dynamic_dialog", {
@@ -375,7 +372,7 @@ var FUNC = {
 							            role: 'dialog'
 							        });
 
-	            $("#contact-email-composer-btn").on('vclick', function(e){
+	            $("#contact-email-composer-btn").on('tap', function(e){
 	            	//console.log(contact_email);
 	            	$("#email_to").val(contact_email);
 
@@ -389,7 +386,82 @@ var FUNC = {
 
 				});
 
-				$('.edit_contact_btn').on('vclick', function(e){
+				$('.edit_contact_btn').on('tap', function(e){
+
+					console.log(e.currentTarget.attributes[1].nodeValue);
+					FUNC.user.editContact(e.currentTarget.attributes[1].nodeValue);
+					e.stopImmediatePropagation();
+				});
+
+			}
+
+		},
+
+		showContactDetailsTask: function(cid) {
+
+			if (typeof localStorage.getItem('contacts') !== 'undefined' && localStorage.getItem('contacts') !== null) {
+
+				var contact_details_content = "";
+				var contact_email = "";
+				var contact_group = "";
+				// READ STRING FROM LOCAL STORAGE
+				var retrievedContacts = localStorage.getItem('contacts');
+
+				// CONVERT STRING TO REGULAR JS OBJECT
+				var contacts = JSON.parse(retrievedContacts);
+				//console.log(parsedObject[0].fullname);
+
+				for(var i = 0; i < contacts.length; i++) {
+
+					if (contacts[i].cid == cid) {
+						contact_email = contacts[i].email;
+						console.log(contacts[i]);
+
+						contact_details_content += "<div><h1>"+contacts[i].first_name+" "+contacts[i].last_name+"</h1></div>";
+						contact_details_content += "<div>"+contacts[i].email+"</div>";
+						contact_details_content += "<div>"+contacts[i].address+"</div>";
+						contact_details_content += "<div class='iconwrappercontact'>";
+						contact_details_content += "<div class='iconscontacts align-left'><img src='images/phoneicon.png' width='40'/><span>Call</span></div>";
+						contact_details_content += "<div class='iconscontacts align-left'><img src='images/chaticon.png' width='40'/><span>Text</span></div>";
+						contact_details_content += "<div class='iconscontacts align-left' id='email-composer-btn'><img src='images/emailicon.png' width='40'/><span>Email</span></div>";
+						contact_details_content += "<div class='iconscontacts align-left edit_contact_btn' data-cid='"+contacts[i].cid+"'><img src='images/editicon.png' width='40'/><span>Edit</span></div>";
+						contact_details_content += "</div>";
+						contact_details_content += "<div class='viewcontactselect ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow'>";
+						contact_details_content += '<select id="contact_group" name="gid"><option value="0">Select Group</option><option value="193">Email Pending</option><option value="202">Do Not Pipeline</option></select>';
+						contact_details_content += "</div>";
+						contact_details_content += "<div class='viewcontactselect ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow'>";
+						contact_details_content += '<select id="contact_campaigns" name="cp_gid"><option value="0">Select Campaign</option><option value="17426">test campaign</option></select>';
+						contact_details_content += "</div>";
+						contact_details_content += "<div>Appointments</div><div>Email</div><div>Tasks</div>";
+						//contact_details_content += '<button id="contact-email-composer-btn" class="ui-btn">Email</button>';
+						contact_details_content += '<a href="#today" data-mini="true" class="ui-btn custom_btn"><img src="images/backarrow.png" width="10"/></a>';
+
+					}
+
+				}
+
+				$("#dynamic_dialog #dialog_content div").html(contact_details_content);
+	            $.mobile.changePage("#dynamic_dialog", {
+							            transition: 'none',
+							            changeHash: true,
+							            role: 'dialog'
+							        });
+
+	            $("#contact-email-composer-btn").on('tap', function(e){
+	            	//console.log(contact_email);
+	            	$("#email_to").val(contact_email);
+
+					$.mobile.changePage("#email_dialog", {
+			            transition: 'none',
+			            changeHash: true,
+			            role: 'dialog'
+			        });
+
+			        e.stopImmediatePropagation();
+
+				});
+
+				$('.edit_contact_btn').on('tap', function(e){
 
 					console.log(e.currentTarget.attributes[1].nodeValue);
 					FUNC.user.editContact(e.currentTarget.attributes[1].nodeValue);
@@ -473,7 +545,7 @@ var FUNC = {
 							            role: 'dialog'
 							        });
 
-	            $("#save-contact-btn").on('vclick', function(e){
+	            $("#save-contact-btn").on('tap', function(e){
 
 	            	$.ajax({
 			            type: "POST",
@@ -630,7 +702,7 @@ var FUNC = {
 		emailComposer:function() {
 
 
-				$("#email-composer-btn").on('vclick', function(e){
+				$(".email-composer-btn").on('tap', function(e){
 					e.stopImmediatePropagation();
 
 					if (connectionStatus == "online") {
@@ -654,7 +726,7 @@ var FUNC = {
 				});
 
 
-			$("#send-email-btn").on('vclick', function(e){
+			$("#send-email-btn").on('tap', function(e){
 				e.stopImmediatePropagation();
 				//console.log($("#send-email-form").serialize());
 				//FUNC.email.sendEmail('send-email-form');
@@ -811,10 +883,10 @@ var FUNC = {
 					for(var i = 0; i < parsedContacts.length; i++) {
 						//console.log(parsedContacts[i].fullname);
 
-			    		table_content_all_contacts += "<ul id='div-"+parsedContacts[i].cid+"' class='listcontactwrapper'>";
+			    		table_content_all_contacts += "<ul id='div-"+parsedContacts[i].cid+"' class='listcontactwrapper' >";
 						table_content_all_contacts += "<div class='contactcheck align-left'><label class='contactcheckwrap'><input type='checkbox' value='"+parsedContacts[i].cid+"' id='' name='checked_contact[]' class='contact-checkbox'/><span class='checkmark'></span></label></div>";
-						table_content_all_contacts += "<div class='align-left contact_info'>";
-						table_content_all_contacts += "<li><h1><a href='#' class='contact_details' data-cid='"+parsedContacts[i].cid+"'>"+parsedContacts[i].first_name+" "+parsedContacts[i].last_name+"</a></h1></li>";
+						table_content_all_contacts += "<div class='align-left contact_info contact_details_prospect' data-cid='"+parsedContacts[i].cid+"'>";
+						table_content_all_contacts += "<li><h1><a href='#'>"+parsedContacts[i].first_name+" "+parsedContacts[i].last_name+"</a></h1></li>";
 						table_content_all_contacts += "<li>"+parsedContacts[i].email+"</li>";
 	   					table_content_all_contacts += "<li>"+parsedContacts[i].phone+"</li>";
 
@@ -860,38 +932,42 @@ var FUNC = {
 
 						//console.log(parsedObject[i].fullname);
 
-			    		table_content_all_contacts += "<ul id='div-"+parsedObject[i].cid+"' class='listcontactwrapper'>";
+			    		table_content_all_contacts += "<ul id='div-"+parsedObject[i].cid+"' class='listcontactwrapper ' >";
 						table_content_all_contacts += "<div class='contactcheck align-left'><label class='contactcheckwrap'><input type='checkbox' value='"+parsedObject[i].cid+"' id='' name='checked_contact[]' class='contact-checkbox' /><span class='checkmark'></span></label></div>";
 						table_content_all_contacts += "<div class='align-left contact_info'>";
-						table_content_all_contacts += "<li><h1><a href='#' class='contact_details' data-cid='"+parsedObject[i].cid+"'>"+parsedObject[i].first_name+" "+parsedObject[i].last_name+"</a></h1></li>";
-						table_content_all_contacts += "<li>"+parsedObject[i].email+"</li>";
-						table_content_all_contacts += "<li>"+parsedObject[i].phone+"</li>";
+						table_content_all_contacts += "<li><h1>"+parsedObject[i].first_name+" "+parsedObject[i].last_name+"</h1></li>";
+						//table_content_all_contacts += "<li>"+parsedObject[i].email+"</li>";
+						//table_content_all_contacts += "<li>"+parsedObject[i].phone+"</li>";
 
 
-					    if (typeof parsedObject[i].groups != "undefined")
-						{
-						    // variable is not undefined
+					    // if (typeof parsedObject[i].groups != "undefined")
+						// {
+						//     // variable is not undefined
 
-						    table_content_all_contacts += "<li>";
-						    for(var j = 0; j < parsedObject[i].groups.length; j++) {
-						    	table_content_all_contacts += parsedObject[i].groups[j].name+", ";
-						    }
-						    table_content_all_contacts += "</li>";
+						//     table_content_all_contacts += "<li>";
+						//     for(var j = 0; j < parsedObject[i].groups.length; j++) {
+						//     	table_content_all_contacts += parsedObject[i].groups[j].name+", ";
+						//     }
+						//     table_content_all_contacts += "</li>";
 
-						} else {
-							table_content_all_contacts += "<li></li>";
-						}
+						// } else {
+						// 	table_content_all_contacts += "<li></li>";
+						// }
 
-						if (typeof parsedObject[i].campaign != "undefined")
-						{
-						    // variable is not undefined
-						    table_content_all_contacts += "<li>"+parsedObject[i].campaign.name+"</li>";
+						// if (typeof parsedObject[i].campaign != "undefined")
+						// {
+						//     // variable is not undefined
+						//     table_content_all_contacts += "<li>"+parsedObject[i].campaign.name+"</li>";
 
-						} else {
-							table_content_all_contacts += "<li></li>";
-						}
+						// } else {
+						// 	table_content_all_contacts += "<li></li>";
+						// }
 
-			            table_content_all_contacts += "</div></ul>";
+			            table_content_all_contacts += "</div>";
+			            table_content_all_contacts += "<div>";
+						table_content_all_contacts += "<li><a href='#' class='contact_details_prospect' data-cid='"+parsedObject[i].cid+"' style='font-size:20px;'> > </a></li>";
+			            table_content_all_contacts += "</div>";
+			            table_content_all_contacts += "</ul>";
 					}
 				}
 
@@ -900,12 +976,12 @@ var FUNC = {
 		        $("#allcontacts #contact_table").html(table_content_all_contacts);
 
 
-		        $('.contact_details').on('vclick', function(e) {
+		        $('.contact_details_prospect').on('tap', function(e) {
 		        	e.stopImmediatePropagation();
-					//console.log(e.currentTarget.attributes[2].nodeValue);
+					//console.log(e);
 
 					var contact_cid = e.currentTarget.attributes[2].nodeValue;
-
+					console.log(contact_cid);
 					FUNC.user.showContactDetails(contact_cid);
 
 				});
@@ -961,8 +1037,8 @@ var FUNC = {
 
 			    		table_content_todayscall += "<ul id='div-"+parsedObject[i].cid+"' class='listcontactwrapper'>";
 						table_content_todayscall += "<div class='contactcheck align-left'><label class='contactcheckwrap'><input type='checkbox' value='"+parsedObject[i].cid+"' id='' name='checked_contact[]' class='contact-checkbox' /><span class='checkmark'></span></label></div>";
-						table_content_todayscall += "<div class='align-left contact_info'>";
-						table_content_todayscall += "<li><h1><a href='#' class='contact_details' data-cid='"+parsedObject[i].cid+"'>"+parsedObject[i].first_name+" "+parsedObject[i].last_name+"</a></h1></li>";
+						table_content_todayscall += "<div class='align-left contact_info contact_details_prospect' data-cid='"+parsedObject[i].cid+"'>";
+						table_content_todayscall += "<li><h1><a href='#' class='' >"+parsedObject[i].first_name+" "+parsedObject[i].last_name+"</a></h1></li>";
 						table_content_todayscall += "<li>"+parsedObject[i].email+"</li>";
 						table_content_todayscall += "<li>"+parsedObject[i].phone+"</li>";
 
@@ -998,10 +1074,10 @@ var FUNC = {
 
 		        $("#todayscall_contact").html(table_content_todayscall);
 
-		        $('.contact_details').on('touchstart', function(e) {
+		        $('.contact_details_prospect').on('mouseup touchend', function(e) {
 					//console.log(e.currentTarget.attributes[2].nodeValue);
 
-					var contact_cid = e.currentTarget.attributes[2].nodeValue;
+					var contact_cid = e.currentTarget.attributes[1].nodeValue;
 
 					FUNC.user.showContactDetails(contact_cid);
 
@@ -1059,8 +1135,8 @@ var FUNC = {
 
 			    		table_content_lastdays += "<ul id='div-"+parsedObject[i].cid+"' class='listcontactwrapper'>";
 						table_content_lastdays += "<div class='contactcheck align-left'><label class='contactcheckwrap'><input type='checkbox' value='"+parsedObject[i].cid+"' id='' name='checked_contact[]' class='contact-checkbox' /><span class='checkmark'></span></label></div>";
-						table_content_lastdays += "<div class='align-left contact_info'>";
-						table_content_lastdays += "<li><h1><a href='#' class='contact_details' data-cid='"+parsedObject[i].cid+"'>"+parsedObject[i].first_name+" "+parsedObject[i].last_name+"</a></h1></li>";
+						table_content_lastdays += "<div class='align-left contact_info contact_details_prospect' data-cid='"+parsedObject[i].cid+"'>";
+						table_content_lastdays += "<li><h1><a href='#' class='' >"+parsedObject[i].first_name+" "+parsedObject[i].last_name+"</a></h1></li>";
 						table_content_lastdays += "<li>"+parsedObject[i].email+"</li>";
 						table_content_lastdays += "<li>"+parsedObject[i].phone+"</li>";
 
@@ -1096,10 +1172,10 @@ var FUNC = {
 
 		        $("#lastdaysdata").html(table_content_lastdays);
 
-		        $('.contact_details').on('touchstart', function(e) {
+		        $('.contact_details_prospect').on('mouseup touchend', function(e) {
 					//console.log(e.currentTarget.attributes[2].nodeValue);
 
-					var contact_cid = e.currentTarget.attributes[2].nodeValue;
+					var contact_cid = e.currentTarget.attributes[1].nodeValue;
 
 					FUNC.user.showContactDetails(contact_cid);
 
@@ -1152,8 +1228,8 @@ var FUNC = {
 
 			    		table_content_team += "<ul id='div-"+parsedObject[i].cid+"' class='listcontactwrapper'>";
 						table_content_team += "<div class='contactcheck align-left'><label class='contactcheckwrap'><input type='checkbox' value='"+parsedObject[i].cid+"' id='' name='checked_contact[]' class='contact-checkbox' /><span class='checkmark'></span></label></div>";
-						table_content_team += "<div class='align-left contact_info'>";
-						table_content_team += "<li><h1><a href='#' class='contact_details' data-cid='"+parsedObject[i].cid+"'>"+parsedObject[i].first_name+" "+parsedObject[i].last_name+"</a></h1></li>";
+						table_content_team += "<div class='align-left contact_info contact_details_prospect' data-cid='"+parsedObject[i].cid+"'>";
+						table_content_team += "<li><h1><a href='#' class='' >"+parsedObject[i].first_name+" "+parsedObject[i].last_name+"</a></h1></li>";
 						table_content_team += "<li>"+parsedObject[i].email+"</li>";
 						table_content_team += "<li>"+parsedObject[i].phone+"</li>";
 
@@ -1189,10 +1265,10 @@ var FUNC = {
 
 		        $("#teamdata").html(table_content_team);
 
-		        $('.contact_details').on('touchstart', function(e) {
+		        $('.contact_details_prospect').on('mouseup touchend', function(e) {
 					//console.log(e.currentTarget.attributes[2].nodeValue);
 
-					var contact_cid = e.currentTarget.attributes[2].nodeValue;
+					var contact_cid = e.currentTarget.attributes[1].nodeValue;
 
 					FUNC.user.showContactDetails(contact_cid);
 
@@ -1206,7 +1282,7 @@ var FUNC = {
 		},
 		removeContact: function() {
 
-			$(document).on('vclick', '#delete-contact-btn', function(e){
+			$(document).on('tap', '#delete-contact-btn', function(e){
 
 				if (connectionStatus == 'online') {
 					var cid = "";
@@ -1314,7 +1390,7 @@ var FUNC = {
 			//set uid in hidden div
 			$("#uid").val(localStorage.getItem('uid'));
 
-            $(document).on('vclick', '#add-contact-btn', function(e){
+            $(document).on('tap', '#add-contact-btn', function(e){
 
             	if ($("#first_name").val() == "" && $("#last_name").val() == "" && $("#email").val() == "") {
 					//$("#result-add-contact").html("Email should not be empty.");

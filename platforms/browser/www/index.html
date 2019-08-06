@@ -25,6 +25,8 @@
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="viewport" content="initial-scale=1, width=device-width, height=device-height, viewport-fit=cover">
     <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
@@ -77,7 +79,7 @@
                 <form id="login-form" method="POST" action="#">
                     <div id="loginformwrapper">
                     <div id="usercircle">
-                        <img src="https://members.simpleconnector.com/dashboard/svg/user_circle_white.svg" width="58">
+                        <img src="images/user_circle_white.svg" width="58">
                     </div>
 
                     <!-- <h1 class="h3 mb-0 font-weight-light">Sign In</h1> -->
@@ -92,8 +94,8 @@
                         <input id="login_btn" class="foo" type="button" data-mini="true" name="" value="Login">
                     </div>
 
-                    <p class="mt-3 mb-3" style="color:#f8267f;font-size:13px">
-                        <a id="forgot_password_link" href="#" data-target="#reset_password" data-toggle="modal" data-trigger="modal" style="color: #f8267f;text-decoration: none;text-shadow: 1px 1px 5px #fff;font-size: 13px;font-weight: 400;">
+                    <p class="mt-3 mb-3" style="color:#31bfcb;font-size:13px">
+                        <a id="forgot_password_link" href="#" data-target="#reset_password" data-toggle="modal" data-trigger="modal" style="color: #31bfcb;text-decoration: none;text-shadow: 1px 1px 5px #fff;font-size: 13px;font-weight: 400;">
                             Forgot Password?
                         </a>
                     </p>
@@ -119,7 +121,7 @@
 
         <h1>Todays Task</h1>
 
-        <div style="width: 100%; overflow: auto;margin-top: 35%;" id="todaylist_tasks">
+        <div style="width: 100%; overflow: auto;margin-top: 10%;" id="todaylist_tasks">
 
             <div id="todays_content_wrapper">
 
@@ -163,10 +165,10 @@
                 <a data-toggle="tab" class="nav-link active" href="#allcontacts">All</a>
               </li>
               <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="#todayscall">Today's Call</a>
+                <a data-toggle="tab" class="nav-link" href="#todayscall">Today</a>
               </li>
               <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="#lastdays">Last 7 Days</a>
+                <a data-toggle="tab" class="nav-link" href="#lastdays">Recent</a>
               </li>
               <li class="nav-item">
                 <a data-toggle="tab" class="nav-link" href="#teamcontacts">Team</a>
@@ -306,7 +308,7 @@
                 <form id="add-contact-form" method="POST" action="#"  data-ajax="false">
                   <div id="topheaderform">
                     <ul>
-                      <li></li>
+                      <li style="padding: 0;"><a href="#prospect" data-mini="true" class="ui-btn custom_btn"><img src="images/backarrow.png" width="10"></a></li>
                       <li><input id="new-contact-btn" type="button" data-mini="true" value="New Contact"></li>
                       <li><input id="add-contact-btn" type="button" data-mini="true" class="custom_btn" name="" value="Save"></li>
                     </ul>
@@ -345,8 +347,8 @@
                           <option value="202">Do Not Pipeline</option>
                       </select>
                     </div>
-                    <div class="formfield">
-                      <input type="text" id="referral_first_name" name="referral_first_name" placeholder="Referral First Name" value="">
+                    <div class="formfield" style="margin: 18px 0 0 0;">
+                      <input type="text" id="referral_first_name" name="referral_first_name" placeholder="Referral First Name" value="" style="margin:0;">
                     </div>
                     <div class="formfield">
                       <input type="text" id="referral_last_name" name="referral_last_name" placeholder="Referral Last Name" value="">

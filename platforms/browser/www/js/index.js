@@ -37,7 +37,7 @@ var app = {
 
         navigator.splashscreen.hide();
         
-        StatusBar.overlaysWebView(false);
+        StatusBar.overlaysWebView(true);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
