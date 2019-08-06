@@ -1542,6 +1542,6 @@ if (cordova.platformId == 'android') {
 
 }else{
 	document.addEventListener('deviceready', function(){
-		StatusBar.backgroundColorByHexString('#ffffff');
+		StatusBar.backgroundColorByHexString('#000000');
 	});
 }
