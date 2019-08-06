@@ -1,0 +1,13 @@
+{
+  "name": "com.phonegap.helloworld",
+  "version": "1.0.2",
+  "displayName": "Simple Connector",
+  "cordova": {
+    "platforms": [
+      "ios"
+    ]
+  },
+  "dependencies": {
+    "cordova-ios": "latest"
+  }
+}

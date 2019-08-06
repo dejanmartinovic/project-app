@@ -8,18 +8,11 @@
         PhoneGap Team
     </author>
     <content src="index.html" />
-
-    <preference name='phonegap-version' value='cli-7.0.1' />
-    <engine name="ios" spec="latest" />
-
+    <preference name="phonegap-version" value="cli-7.0.1" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
-    <preference name="StatusBarStyle" value="blacktranslucent" />
     <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarBackgroundColor" value="#000000" />
-
     <preference name="show-splash-screen-spinner" value="false" />
-
     <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
     <plugin name="cordova-plugin-camera" source="npm" spec="~2.1.1" />
     <plugin name="cordova-plugin-media-capture" source="npm" spec="~1.2.0" />
@@ -61,7 +54,6 @@
         <splash density="port-xxxhdpi" src="www/res/screen/android/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
-
         <icon height="57" platform="ios" src="www/res/icon/icon.png" width="57" />
         <icon height="114" platform="ios" src="www/res/icon/icon.png" width="114" />
         <icon height="40" platform="ios" src="www/res/icon/icon.png" width="40" />
@@ -79,7 +71,6 @@
         <icon height="58" platform="ios" src="www/res/icon/icon.png" width="58" />
         <icon height="87" platform="ios" src="www/res/icon/icon.png" width="87" />
         <splash src="www/res/screen/ios/Default@2x~ipad~anyany.png" />
-
     </platform>
     <platform name="wp8">
         <icon height="99" platform="wp8" src="www/res/icon/wp8/ApplicationIcon.png" width="99" />
@@ -112,12 +103,12 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
-        <preference name="StatusBarStyle" value="white" />
+        <preference name="StatusBarBackgroundColor" value="#FFFFFF" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <preference name="StatusBarStyle" value="blacktranslucent" />
+        <preference name="StatusBarBackgroundColor" value="#000000" />
     </platform>
-
+    <engine name="ios" spec="latest" />
 </widget>

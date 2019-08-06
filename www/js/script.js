@@ -1533,3 +1533,15 @@ var FUNC = {
 	}
 
 }
+
+if (cordova.platformId == 'android') {
+
+	document.addEventListener('deviceready', function(){
+		StatusBar.backgroundColorByHexString('#ffffff');
+	});
+
+}else{
+	document.addEventListener('deviceready', function(){
+		StatusBar.backgroundColorByHexString('#ffffff');
+	});
+}

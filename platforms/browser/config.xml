@@ -24,8 +24,6 @@
     <preference name="phonegap-version" value="cli-7.0.1" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
-    <preference name="StatusBarStyle" value="blacktranslucent" />
     <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarBackgroundColor" value="black" />
     <preference name="show-splash-screen-spinner" value="false" />
 </widget>
