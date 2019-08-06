@@ -8,6 +8,6 @@
     ]
   },
   "dependencies": {
-    "cordova-ios": "latest"
+    "cordova-ios": "^5.0.1"
   }
 }
