@@ -23,50 +23,60 @@
 }
 *
 {
--webkit-user-select: none;
--khtml-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
--webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
-font-family: 'Montserrat', sans-serif;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+  font-family: 'Montserrat', sans-serif;
 }
 
-input
+input, textarea
 {
 -webkit-user-select: auto !important;
 -khtml-user-select: auto !important;
 -moz-user-select: auto !important;
 -ms-user-select: auto !important;
 user-select: auto !important;
+font-family: 'Montserrat', sans-serif;
 }
 
-body {
+input[type="date"]:before, input[type="time"]:before {
+  content: attr(placeholder) !important;
+  color: #aaa;
+  margin-right: 0.5em;
+}
+input[type="date"]:focus:before,
+input[type="date"]:valid:before, input[type="time"]:focus:before,
+input[type="time"]:valid:before {
+  content: "";
+}
+
+li{
+  list-style: none;
+}
+button, input[type=button]{
+  background: none;
+border: none;
+    padding: 0;
+}
+body{
+    background-color: #ffffff;
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    /*background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );*/
-    background-attachment:fixed;
-    /*font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;*/
-    font-family:'Montserrat', sans-serif;
-    font-size:12px;
-    height:100%;
-    margin:0px;
-    padding:0px;
-    text-transform:uppercase;
-    width:100%;
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+    align-items: center;
+    /*padding-top: 6.3%;*/
+    padding-bottom: 40px;
 }
-
+span{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+color: #383838;
+}
 body textarea {
     -webkit-touch-callout: text;
     -webkit-user-select: text;
@@ -153,18 +163,31 @@ h1 {
 
 
 /**CSUTOM CSS FOR APP**/
-body{
-    padding-top: constant(safe-area-inset-top);
-    padding-top: env(safe-area-inset-top);
-    align-items: center;
-    padding-top: 6.3%;
-    padding-bottom: 40px;
-    background-image: url('https://members.simpleconnector.com/dashboard/images/bglogin.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-}
-.header, .header_nav_btn {
+/*body {
+
+    background-color:#E4E4E4;
+    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #A7A7A7),
+        color-stop(0.51, #E4E4E4)
+    );
+    background-attachment:fixed;
+    /*font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-family:'Montserrat', sans-serif;
+    font-size:12px;
+    height:100%;
+    margin:0px;
+    padding:0px;
+    text-transform:uppercase;
+    width:100%;
+
+}*/
+#header, #header .header_nav_btn {
     padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
     padding-top: env(safe-area-inset-top); /* iOS 11.2 */
 }
@@ -189,7 +212,7 @@ body{
     position: fixed;
 }
 /* LOGIN */
-#loginformwrapper .ui-input-btn{
+#loginformwrapper #login_btn{
   background: #f8267f;
   border-color: #f8267f;
   color: #fff;
@@ -198,25 +221,22 @@ body{
       font-family: 'Montserrat', sans-serif;
       font-weight: 300;
 }
-#loginformwrapper .ui-input-btn:focus{
-  background: #3d8b92;
-  border-color: #3d8b92;
-}
-#loginformwrapper .ui-input-text{
+
+#loginformwrapper #login_btn{
 margin: 1.5em 0;
 font-family: 'Montserrat', sans-serif;
 }
 .form-signin {
-	width: 100%;
-	max-width: 365px;
-	padding: 15px;
-	margin: 0 auto;
-	padding-top: 6.95%;
+  width: 100%;
+  max-width: 365px;
+  padding: 15px;
+  margin: 0 auto;
+  padding-top: 6.95%;
 }
 /*.logoqfffff{
     position: relative;
     top: -100px;
-	width:100%;
+  width:100%;
 }*/
 #loginformwrapper{
     background: hsla(0, 0%, 100%, 0.6);
@@ -231,7 +251,9 @@ font-family: 'Montserrat', sans-serif;
     left: 37%;
     right: 37%;
 }
-
+.ui-page {
+  background: #fff !important;
+}
 /* Change Autocomplete styles in Chrome*/
 /*input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -300,12 +322,12 @@ select:-webkit-autofill:focus {
     width: 72%;
 }
 input:-webkit-autofill, input:-webkit-autofill-strong-password{
-	background-color:transparent !important;
-	color:#495057 !important;
+  background-color:transparent !important;
+  color:#495057 !important;
 }
 input:-webkit-autofill, input:-webkit-autofill:focus {
-	background-color:transparent !important;
-	color:#495057 !important;
+  background-color:transparent !important;
+  color:#495057 !important;
 }
 input[type="email"], input[type="password"]{
 -webkit-appearance: textfield; /* 1 */
@@ -321,13 +343,13 @@ input::-webkit-contacts-auto-fill-button {
   right: 0;
 }
 /*input::-webkit-textfield-decoration-container{
-	display:none;
+  display:none;
 }
 input::-webkit-caps-lock-indicator{
-	display:none;
+  display:none;
 }
 input::-webkit-credentials-auto-fill-button{
-	display:none;
+  display:none;
 }*/
 .btngreen{
     background: #f8267f;
@@ -373,8 +395,10 @@ input::-webkit-credentials-auto-fill-button{
 }
 /* FOOTER MENU */
 #universal-footer{
-    height: 100px;
+    height: 85px;
     overflow: hidden;
+    position: fixed;
+    bottom: 0;
 }
 #universal-footer ul li{
   text-align: center;
@@ -433,6 +457,7 @@ text-shadow:none;
   float: left;
   margin: 0;
 height: 30px;
+
 }
 .formfield label{
   width: 30%;
@@ -457,43 +482,54 @@ border-right: 0;
   width: 100%;
   height: 50px;
   margin: 0;
+  z-index: 1;
 }
 #formwrapper .formfield textarea{
   line-height: 1em !important;
-  height: 110px !important;
+  height: 250px !important;
   margin-bottom: 15px;
       border: none;
 }
 #formwrapper{
-  margin-top: 105px;
+  margin-top: 18px;
   position: relative;
+      padding: 15px;
 }
 #topheaderform{
-  position: fixed;
+  position: inherit;
   width: 100%;
   left: 0;
   height: 50px;
-  z-index: 999;
-  top: -10px;
+  /*z-index: 999;*/
+  /*top: -10px;*/
 }
 #add_contact{
   height: 100%;
 }
 #topheaderform ul{
   padding-left: 0;
-  height: 120px;
-  padding-top: 70px;
+  /* height: 100px; */
+  padding-top: 15px;
   display: block;
   overflow: visible;
   border-bottom: 1px solid #eee;
-      background: #fff;
+  background: #31bfcb;
+  /*position: fixed;*/
+  z-index: 999;
+  width: 100%;
+  text-shadow: none;
+  /*top: 40px;*/
+  color: #fff;
 }
 #topheaderform ul li{
   list-style: none;
   float: left;
   width: 33.333333%;
-  padding: 10px 0;
+  padding:0;
       text-align: center;
+}
+#topheaderform ul li a,  #topheaderform ul li input, #topheaderform ul li button{
+  color: #fff;
 }
 #topheaderform .custom_btn{
   padding: 0;
@@ -509,31 +545,38 @@ margin: 11px 0 0 20px;
   padding: 0;
   font-weight: bold;
   color:#222;
-    padding: 5px;
+  padding: 5px;
+  font-size: 15px;
 }
 .header{
   position: fixed;
   width: 100%;
 }
+.textwhite{
+  color: #fff;
+  text-shadow: none;
+      padding: 20px;
+}
 #add_contact .ui-content{
   height: 100%;
-      background: #fff;
+  background: #fff;
+  padding: 0;
 }
 /*prospect*/
 
-#prospectwrapper{
-  margin-top: 50px;
+#prospectwrapper, #todaywrapper{
+  margin-top: 40px;
 }
 #prospectpage{
   padding: 0;
   height: 100%;
-overflow: initial;
+  overflow: initial;
 }
 #prospectwrapper .nav-tabs{
   padding: 0 5px;
 }
 #prospectwrapper .nav-tabs li a{
-  color: #a0a0a0;
+  color: #fff;
   font-weight: 400;
   text-shadow: none;
 }
@@ -544,24 +587,23 @@ background: #f8267f;
 }
 #contactoptions{
   padding: 0 32px;
-height: 70px;
-margin: 0 auto;
+height: 58px;
+margin: 12px auto;
 display: block;
 }
 #contactoptions ul{
-padding:0;
+padding:0 26px;
     margin: 0;
 }
 #contactoptions ul li{
   list-style: none;
   float: left;
-  margin: 0 12px;
+    margin: 0 5px;
 }
 #prospectwrapper .tab-content{
   clear: both;
-  padding: 0 30px;
   position: relative;
-    top: 195px;
+  top: 168px;
 }
 #emailcontact .ui-input-btn{
   background: #fff;
@@ -593,17 +635,41 @@ margin: 10px auto;
 
 #allcontacts .ui-table-columntoggle-btn, #todayscall .ui-table-columntoggle-btn, #lastdays .ui-table-columntoggle-btn, #teamcontacts .ui-table-columntoggle-btn, #todays_content_wrapper .ui-table-columntoggle-btn { display: none; }
 
-#contact_table ul li, #todayscall_contact ul li, #lastdaysdata ul li, #teamdata ul li, #todays_content_wrapper ul li{
+.contacts_table, #todayscall_contact, #lastdaysdata, #teamdata{
+  overflow:auto;
+  height:80vh;
+  padding-top:0px;
+  overflow-y: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 300px; /* Prospects list goes below the nav footer for iPhone X, this is a solution i think??*/
+  /*adding this for scrollbar to be far right*/
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  width: 100%;
+
+}
+#prospectpage #prospectwrapper .tab-content .tab-pane div.parent_contactable{
+  width: 100%;
+overflow: hidden;
+height: 100%;
+}
+.contacts_table ul li, #todayscall_contact ul li, #lastdaysdata ul li, #teamdata ul li, #todays_content_wrapper ul li{
   list-style: none;
   padding: 0px;
   border: none !important;
   border-bottom: none;
   margin: 0;
   text-transform: none;
-font-size: 12px;
-color: #828282;
+  font-size: 12px;
+  color: #828282;
+  height: 100%;
+overflow: auto;
+margin: 10px 0
 }
-#contact_table ul, #todayscall_contact ul, #lastdaysdata ul, #teamdata ul, #todays_content_wrapper ul{
+.contacts_table ul, #todayscall_contact ul, #lastdaysdata ul, #teamdata ul, #todays_content_wrapper ul{
   padding: 0;
   border-bottom: 1px solid #ddd;
   height: 100%;
@@ -615,7 +681,7 @@ color: #828282;
 }*/
 .contactcheck{
   clear: both;
-width: 20%;
+  width: 20%;
 }
 .contactcheckwrap{
   width: 40px;
@@ -635,7 +701,9 @@ width: 20%;
    top: 4px;
    left: 4px;
    z-index: 1;
+   margin: 2px 0px;
 }
+
 .contactcheckwrap input[type=checkbox]:checked + label {
     background: #f8257f;
 }
@@ -648,7 +716,7 @@ width: 20%;
 }
 .contact_info{
     width: 75%;
-    margin-bottom: 15px;
+    margin: 2px 0;
 }
 .contact_info h1{
   text-align: left;
@@ -666,7 +734,7 @@ font-weight: bold;
       height: 30px;
       width: 30px;
       background-color: #eee;
-      border: 1px solid #222;
+      border: 1px solid #c1c1c1;
       border-radius: 100%;
 }
 .checkmark:after {
@@ -712,7 +780,7 @@ font-weight: bold;
 }
 #today{
   background: #fff;
-  padding-top: 70px;
+  /*padding-top: 70px;*/
   height: 100% !important;
 }
 
@@ -720,38 +788,86 @@ font-weight: bold;
   background: #fff;
 }
 .prospectheader-fixed{
-  position: fixed;
-background: #fff;
+position: fixed;
+background: #31bfcb;
 z-index: 999;
-padding-top: 60px;
-top: 0;
+/*top: 0;*/
 width: 100%;
 }
 #send-email-form #formwrapper{
-  margin-top: 0px;
+  margin-top: 5px;
+      padding-top: 0;
 }
 .ui-mobile .ui-page-active{
-      background: #fff !important;
+      /*background: #fff !important;*/
       height: 100%;
+      /*margin-top: 30px;*/
 }
 #dynamic_dialog .ui-dialog-contain{
   box-shadow: none;
 border-radius: 5px;
-    margin-top: 90px;
+margin: 0;
+width: 100%;
 }
 #dynamic_dialog #contact-email-composer-btn{
   border: 1px solid #f8267f;
 }
-#send-email-form #formwrapper .custom_btn{
+/*
+--old one for the header-- hindi niya gusto may color kay thick daw ang design -_-
+.viewcontact #header{
+  background: #31bfcb;
+  color: #fff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  border-radius: 0;
+  text-shadow: none;
+}*/
+/*
+#header{
+  background: transparent !important;
+  color: transparent;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  border-radius: 0;
+  text-shadow: none;
+  border: none;
+  z-index:99999 !important;
+}*/
+#header{
+  background: #31bfcb !important;
+  color: #fff;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  top: 0;
+  border-radius: 0;
+  text-shadow: none;
+  z-index: 99999 !important;
+/* display: none; */
+  border: none;
+height: 40px;
+}
+.viewcontact #dialog_content{
+  margin-top: 65px;
+}
+.viewcontact #header .ui-icon-delete{
+  display: none;
+}
+.viewcontact .formfield{
+  padding: 0 20px;
+}
+#send-email-form #formwrapper .custom_btn, #sucess_page .custom_btn{
   background: #f8267f;
 color: #fff;
 text-shadow: none;
 border: none;
-    border-radius: 25px;
-        margin: 0;
+  border-radius: 25px;
+margin: 0;
 }
 #dialog_content div div{
-  padding: 5px 0;
+  padding:0;
   text-align: center;
   text-transform: none;
 }
@@ -772,7 +888,7 @@ border-radius: 25px;
       overflow: auto;
       height: 100%;
       display: block;
-    padding: 150px 0;
+    padding: 55px 0 150px 0;
   }
 .iconwrapper div.align-left{
   width: 42%;
@@ -789,47 +905,52 @@ border-radius: 25px;
 .buttonwrapper{
   height: 100%;
 display: block;
-width: 350px;
+/*width: 350px;*/
 overflow: auto;
-    margin-top: 350px;
+/*margin-top: 120px;*/
 }
 .buttonwrapper .align-left{
     width: 42%;
-    margin: 0 12px;
+    margin: 0 4px;
 }
 .clearfix{
   clear: both;
 }
 .iconwrappercontact{
-  margin: 0 10px;
+  margin: 30px 10px;
 overflow: hidden;
 height: 100%;
 display: block;
 text-align: center;
+    padding-bottom: 30px;
 }
 .iconwrappercontact .iconscontacts{
-width: 16%;
-text-align: center;
-    margin: 0 13px;
+  width: 14%;
+  text-align: center;
+  margin: 0 13px;
+  float: left;
 }
 #dynamic_dialog div .custom_btn{
-  position: absolute;
-top: 0;
-left: 0;
+  text-align: left;
+  padding: 0;
 background: none;
 border: none;
+font-weight: normal;
+font-family: Montserrat;
 }
 .viewcontactselect select{
   width: 100%;
   border: none;
-padding: 0 5px;
+  padding: 0 5px;
+  height: 30px;
 }
 .iconscontacts span{
   margin: 12px 0;
   display: block;
+  color: #b3b3b3;
 }
 #email_dialog #dialog_content{
-  height: 710px;
+  height: 100%;
 }
 select{
   -webkit-appearance: none;
@@ -846,3 +967,764 @@ width: 100%;
 .contact_info li{
     height: 16px;
 }*/
+
+
+/*for iphone x*/
+@media screen and (min-device-width: 375px) and (max-device-width: 414px) {
+  .prospectheader-fixed .nav-tabs{
+    margin: 0 auto;
+    width: 320px;
+  }
+  .iconwrappercontact .iconscontacts{
+    width: 17% !important;
+  }
+
+}
+/*for older iphone */
+@media screen and (min-device-width: 320px) and (max-device-width: 374px){
+  #contactoptions{
+    padding: 0 5px !important;
+  }
+}
+/*for  iphone 5 */
+@media screen and (max-width: 320px){
+  #contactoptions ul li{
+    margin: 0 4px !important;
+  }
+}
+@media only screen
+    and (min-device-width : 414px)
+    and (max-device-width : 736px)
+    and (device-width : 414px)
+    and (device-height : 736px)
+    and (orientation : portrait)
+    and (-webkit-min-device-pixel-ratio : 3)
+    and (-webkit-device-pixel-ratio : 3){
+#contactoptions ul li{
+      margin: 0 11px !important;
+    }
+}
+
+/*for androids */
+@media screen and (max-width: 360px){
+  .prospectheader-fixed .nav-tabs{
+    margin: 0 auto;
+    width: 320px;
+  }
+  #contactoptions ul li{
+    margin: 0 11px;
+  }
+}
+
+#contact-form #formwrapper, #contact-form-task #formwrapper{
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height:100vh;
+  padding-bottom:300px !important;
+}
+
+.email-form #formwrapper, .email-form-task #formwrapper{
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height:100vh;
+  padding-bottom:350px !important;
+}
+
+.ui-input-text input,
+.formfield .ui-input-text{
+    padding:0px;
+    line-height:50px;
+}
+.formfield #contact_group-button{
+  padding: 8px;
+}
+#header h1{
+  display: none;
+}
+.contact_details_prospect{
+  float: right;
+}
+.ui-input-search input{
+  padding-top:0px !important;
+  padding-bottom:0px !important;
+}
+
+#edit-contact-form input{
+  width: 100%;
+  border-bottom: 1px solid #222;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+}
+#edit-contact-form ul{
+  padding: 0;
+    border: none;
+    margin: 0;
+}
+#edit-contact-form ul li{
+  width: 100%;
+}
+#topheaderform ul.editcontactheader{
+  padding: 20px 0 0 0;
+      height: 70px;
+}
+#topheaderform ul.editcontactheader li{
+  width: 32%;
+  font-weight: bold;
+    padding: 20px 0;
+}
+#topheaderform ul.editcontactheader li a.custom_btn{
+  margin:0;
+  position: relative;
+      padding: 20px;
+}
+#todaywrapper{
+  /*background: #31bfcb;*/
+text-shadow: none;
+color: #fff;
+padding: 0;
+/*height: 40px;*/
+}
+
+#todays_content_wrapper {
+  background: #fff;
+}
+
+#topheaderform ul.editcontactheader li input{
+  background: none;
+border: none;
+text-align: right;
+font-weight: bold;
+}
+#contact-form .custom_btn, #contact-form-task .custom_btn{
+  margin: 0;
+  font-family: Montserrat;
+  font-weight: normal;
+}
+#change_campaign .formfield label, #change_group .formfield label, #select_campaign .formfield label, #select_group .formfield label, #add_campaign .formfield label, #add_group .formfield label{
+  width: 100%;
+  position: absolute;
+left: 0;
+right: 0;
+padding: 15px;
+border-bottom: 1px solid #eee;
+height: 50px;
+background: none;
+border-radius: 0;
+border-right: none;
+border-top: none;
+border-left: 0;
+
+}
+#change_campaign .formfield .ui-checkbox input, #change_campaign .formfield .ui-checkbox input, #select_campaign .formfield .ui-checkbox input, #select_group .formfield .ui-checkbox input, #add_campaign .formfield .ui-checkbox input, #add_group .formfield .ui-checkbox input{
+  margin: 5px 0px;
+}
+
+.add_contact_group span {
+  display: inline;
+}
+
+.group_names {
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.campaigncheck{
+  clear: both;
+      height: 50px;
+}
+.campaignlabel{
+  display: block !important;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.campaignlabel .ui-checkbox input {
+  position: absolute !important;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  top: -5px;
+  z-index: 99999;
+  right: -160px;
+}
+.campaignlabel:hover .ui-checkbox input ~ .checkmarkcampaign {
+  background-color: #ccc;
+}
+.campaignlabel .ui-checkbox input:checked ~ .checkmarkcampaign {
+  background-color: transparent;
+}
+.campaignlabel .ui-checkbox input:checked{
+  background-color: transparent;
+}
+.checkmarkcampaign:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.campaignlabel .ui-checkbox input:checked ~ .checkmarkcampaign:after {
+  display: block;
+}
+
+/**/
+.campaignlabel:hover input ~ .checkmarkcampaign {
+  background-color: transparent;
+}
+.campaignlabel input:checked ~ .checkmarkcampaign {
+  background-color: transparent;
+}
+.campaignlabel input:checked{
+  background-color: transparent;
+}
+.campaigncheck .active{
+  background: #eee;
+}
+.campaignlabel input:checked + label{
+  background: #000;
+}
+.checkmarkcampaign:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.campaignlabel input:checked ~ .checkmarkcampaign:after {
+  display: block;
+}
+.campaignlabel input {
+  position: absolute !important;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  top: -5px;
+  z-index: 99999;
+  right: -160px;
+  left: 0;
+}
+
+
+.campaignlabel .checkmarkcampaign:after,  .campaignlabel:after{
+  left: 9px;
+  top: 6px;
+  width: 7px;
+  height: 13px;
+  border: solid #222;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.checkmarkcampaign{
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  height: 25px;
+  width: 25px;
+  background-color: transparent;
+}
+.listcontactwrapper{
+  padding-top: 10px !important;
+  padding-right: 30px !important;
+  padding-bottom:10px !important;
+  margin-bottom:0px !important;
+}
+
+.withuicheckboxclass .formfield .ui-checkbox input{
+  width: 100%;
+border: 1px solid #aeaeae;
+padding: 10px;
+margin-bottom: 15px
+}
+.withuicheckboxclass .formfield .ui-checkbox .container {
+  display: block;
+  position: relative;
+  padding-left: 0;
+  margin-bottom: 18px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 100%;
+  border-bottom: 1px solid #cdcdcd;
+  background: none;
+border-top: 0;
+border-right: 0;
+border-left: 0;
+border-radius: 0;
+}
+.withuicheckboxclass .formfield .ui-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  right: 0;
+z-index: 9999;
+}
+.withuicheckboxclass .formfield .ui-checkbox  .checkmark {
+  position: absolute;
+  top: 0;
+  left: auto;
+  height: 25px;
+  width: 25px;
+  background-color: transparent;
+  right: 0;
+  border: none;
+border-radius: 0;
+}
+.withuicheckboxclass .formfield .ui-checkbox:hover input ~ .checkmark {
+  background-color: transparent;
+}
+.withuicheckboxclass .formfield .ui-checkboxinput:checked ~ .checkmark {
+  background-color: transparent;
+}
+.withuicheckboxclass .formfield .ui-checkbox .container .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.withuicheckboxclass .formfield .ui-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.withuicheckboxclass .formfield .ui-checkbox .container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: 1px solid #222;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+/* ++++++++++++++++++++++ */
+
+
+
+
+
+
+
+
+
+
+
+.formcontainer .formfield{
+  margin-bottom: 15px;
+}
+.formcontainer .formfield input{
+  width: 100%;
+border: 1px solid #aeaeae;
+padding: 10px;
+margin-bottom: 15px
+}
+.formcontainer .formfield .container {
+  display: block;
+  position: relative;
+  padding-left: 0;
+  margin-bottom: 18px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 100%;
+  border-bottom: 1px solid #cdcdcd;
+}
+.formcontainer .formfield .container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  right: 0;
+z-index: 9999;
+}
+.formcontainer .formfield  .checkmark {
+  position: absolute;
+  top: 0;
+  left: auto;
+  height: 25px;
+  width: 25px;
+  background-color: transparent;
+  right: 0;
+  border: none;
+border-radius: 0;
+}
+.formcontainer .formfield .container:hover input ~ .checkmark {
+  background-color: transparent;
+}
+.formcontainer .formfield .container input:checked ~ .checkmark {
+  background-color: transparent;
+}
+.formcontainer .formfield .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.formcontainer .formfield .container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.formcontainer .formfield .container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: 1px solid #222;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.formcontainer .formfield textarea{
+  border-bottom: 1px solid #c1c1c1 !important;
+    width: 100%;
+}
+.margintop{
+  margin-top: 75px;
+}
+
+#task_date::placeholder, #task_time::placeholder{
+  color:#ccc;
+}
+.borderbottomonly{
+    border-bottom: 1px solid #aeaeae !important;
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-left: 0 !important;
+    border-radius: 0;
+}
+.selectgrouptext{
+  margin: 10px;
+  display: block;
+}
+#send-email-form label{
+  font-size: 1em;
+color: #757575;
+padding: 0 10px;
+}
+#send-email-form #formwrapper .formfield{
+  height: 41px;
+  margin-bottom: 15px;
+}
+.contact-history-container .history-list-group li{
+  list-style: none;
+  font-size: 1em !important;
+  font-weight: normal;
+  padding-left: 15px;
+  clear: both;
+  height: 42px;
+}
+.contact-history-container .history-list-group li i{
+  float: left;
+  width: 5%;
+  margin: 11px 0;
+}
+.contact-history-container .history-list-group li span{
+  float: left;
+  width: 90%;
+  margin: 5px 5px;
+  overflow-wrap: break-word;
+  color: #222;
+}
+#add-contact-form{
+  padding: 20px;
+}
+#add-contact-note-form #topheaderform ul, #edit-contact-task-form #topheaderform ul, #edit-contact-note-form ul, #add-contact-task-form #topheaderform ul, .campaignselect ul{
+  position: absolute;
+left: 0;
+}
+
+#edit-contact-task-form #topheaderform ul li, #edit-contact-note-form #topheaderform ul li, #add-contact-form ul li, .headercampaign ul li{
+  /*padding:1px 20px 13px 20px !important; */
+}
+.headercampaign{
+      margin-top: 39px;
+}
+#add-contact-note-form #topheaderform ul{
+  padding-top: 0px;
+  padding-bottom: 0;
+  height:53px;
+}
+#add-contact-task-form #topheaderform ul li{
+      padding: 14px 20px;
+      color:#fff;
+}
+#add-contact-note-form #topheaderform ul li{
+  padding:20px;
+}
+#add-contact-task-form #topheaderform ul li input{
+  color:#fff;
+}
+#add-contact-task-form #topheaderform{
+  position: relative;
+}
+#add-contact-form #formwrapper .formfield span{
+  color: #757575;
+}
+#send-email-btn{
+/*  padding: 11px 29px;*/
+}
+.textright{
+  text-align: right !important;
+}
+.delete_contact_task, .delete_contact_note{
+  background: #f8257f !important;
+    border: none !important;
+    border-radius: 25px;
+    color: #fff;
+}
+.edittaskbtn button, .editnotebtn button{
+  color:#b3b3b3;
+}
+#contact_tasks_content .contact_info{
+  margin: 10px 0;
+}
+#contact_tasks_content .contact_info h1, #contact_notes_content .contact_info h1{
+  font-weight: normal;
+}
+.taskinfo, .notelist{
+  height: 42px;
+}
+.alignright{
+  float: right;
+}
+#add-contact-task-form .borderbottomonly{
+  height: 45px;
+}
+#add-contact-task-form input, #add-contact-task-form label{
+      color: #797979;
+      font-size: 1em;
+      padding-left: 10px;
+      height: 30px;
+}
+.canceltext{
+  height: 30px;
+line-height: 2em;
+}
+#add-contact-task-form #formwrapper{
+  margin-top: 18px;
+}
+#contact_notes_content .contact_info h1{
+  padding-left:15px;
+}
+.heightfortytwo{
+  height: 42px;
+}
+#contact_tasks, #contact_notes{
+  clear: both;
+  height: auto;
+display: block;
+overflow: hidden;
+}
+.contact-history h4{
+  margin-bottom: 10px;
+}
+.jqm .ui-input-btn{
+  text-align: right;
+}
+.contactemail, .contactaddress{
+  text-align: center;
+color: #b3b3b3;
+}
+#contactsearch .ui-input-search, #contactsearch .ui-input-text input:focus, .ui-input-search input:focus{
+  background: #efefef;
+box-shadow: none;
+border: none;
+}
+#settings_page_slide{
+  background: rgb(255, 255, 255);
+position: fixed;
+margin-left: 0%;
+display: block;
+z-index: 999;
+top: 0px;
+width: 100%;
+overflow: scroll;
+-webkit-overflow-scrolling: touch;
+}
+.settingspageform #formwrapper{
+  margin-top: 0px;
+}
+#send-email-sel, .select_email_template{
+  width: 100%;
+height: 41px;
+padding: 10px;
+border-radius: 0;
+}
+#login_box-settings button{
+  background: #31bfcb;
+border-radius: 0;
+box-shadow: none;
+border: none;
+text-shadow: none;
+color: #FFF;
+font-weight: bold;
+}
+.paddingleftright{
+  padding: 0 20px !important;
+}
+.contact-history{
+  padding: 0 20px;
+  height: auto;
+display: block;
+overflow: hidden;
+}
+
+.ui-input-search:after{
+      left: 2.5%;
+}
+.edit_contact_area_group-btn span, .edit_contact_area_campaign-btn span{
+  color: #383838;
+    margin-right: 10px;
+}
+.edit_contact_area_group-btn .grpnamewrap .group_names{
+  margin-right: 0;
+}
+.marginimg{
+  margin:2px 0;
+}
+.subtlegray{
+  background: #f9f9f9;
+padding-top: 45px;
+}
+.alignleft{
+  float: left;
+}
+.paddingtwenty{
+    padding: 20px;
+}
+.halfwidth{
+  width: 50%;
+}
+.buttonbacksave{
+  width: 100%;
+    display: block;
+    height: 42px;
+    margin: 68px 0 0 0;
+}
+.buttonbacksave div a{
+  border: none;
+  background: #31bfcb;
+      border-radius: 10px;
+      text-shadow: none;
+      color: #fff;
+      margin: 0 10px !important;
+}
+.buttonbacksave input{
+  border-bottom:none !important;
+  padding: 1px;
+color: #fff;
+}
+.savebtneditcontact{
+  background: #f8257f;
+border-radius: 10px;
+margin: 0 6px;
+width: 160px;
+    text-align: center;
+}
+.savecontactformbtn{
+  width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    background: #f8257f;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+}
+.savecontactformbtn input{
+      color: #fff;
+}
+.select_contact_group{
+  text-align: right;
+float: right;
+position: absolute;
+top: 11px;
+right: 0;
+color: #757575;
+text-shadow: none;
+text-decoration: none;
+}
+.btnfullwidthpink{
+  background: #f8257f;
+text-align: center;
+border-radius: 25px;
+padding: 10px;
+}
+.settingspageform{
+  padding: 20px;
+}
+.settingspageform #tabs .nav-tabs li a{
+  padding: 8px;
+      color: #6b757d;
+}
+.settingspageform #tabs .nav-tabs li a.active{
+  background: #f8257f;
+color: #fff;
+text-shadow: none;
+}
+.settingspageform #tabs .nav-tabs {
+    margin: 0 0 10px 0;
+}
+.settingspageform .btnfullwidthpink input{
+  background: none;
+  border:none;
+  color: #fff;
+text-align: center;
+}
+.editcontactgroupheader #topheaderform, .editcontactgroupheader #topheaderform{
+      height: 35px;
+}
+#user_settings_form .halfwidth a{
+  margin: 0;
+  color: #fff;
+  text-shadow: none;
+}
+.savesettingsbtn{
+  width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    background: #f8257f;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+}
+.savesettingsbtn input{
+  color: #fff;
+}
+.sidebysideform{
+  width: 45%;
+}
+.width50{
+  width: 50%;
+}
+.collapsewrap .ui-collapsible .ui-collapsible-content{
+  background: #fff;
+  position: relative;
+}
+.collapsewrap .ui-collapsible h4 a{
+  background: #f6f6f6 !important;
+color: #848484 !important;
+text-shadow: none !important;
+border-color: #f0f0f0 !important;
+}
+.collapsewrap {
+  height: auto;
+}

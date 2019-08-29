@@ -36,6 +36,7 @@
 		6DC2F123E7E14B6B8CF5BF5B /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = C38F8AA393E0412C9A302216 /* CDVFile.m */; };
 		C6034EDAD57342749E0B02DC /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = E18618939BF2497B883FB020 /* CDVLocalFilesystem.m */; };
 		B46A0110B0CB4611B18E93F1 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4669D08C0459794A473AF /* CDVAssetLibraryFilesystem.m */; };
+		51B573B877AF4D08A5A3BC96 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 166670D6A0E049798BE0768D /* CDVStatusBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,8 @@
 		E0DE3F10E7E04735AD28B615 /* CDVFile.h */ = {isa = PBXFileReference; name = "CDVFile.h"; path = "cordova-plugin-file/CDVFile.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		CE6834867AAD4A2D9243C642 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; name = "CDVLocalFilesystem.h"; path = "cordova-plugin-file/CDVLocalFilesystem.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		9D7CA228E4E04CBD9DB1E631 /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; name = "CDVAssetLibraryFilesystem.h"; path = "cordova-plugin-file/CDVAssetLibraryFilesystem.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		166670D6A0E049798BE0768D /* CDVStatusBar.m */ = {isa = PBXFileReference; name = "CDVStatusBar.m"; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		933E2BD49F2C4905850117F0 /* CDVStatusBar.h */ = {isa = PBXFileReference; name = "CDVStatusBar.h"; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,6 +274,8 @@
 				E0DE3F10E7E04735AD28B615 /* CDVFile.h */,
 				CE6834867AAD4A2D9243C642 /* CDVLocalFilesystem.h */,
 				9D7CA228E4E04CBD9DB1E631 /* CDVAssetLibraryFilesystem.h */,
+				166670D6A0E049798BE0768D /* CDVStatusBar.m */,
+				933E2BD49F2C4905850117F0 /* CDVStatusBar.h */,
 			);
 			name = Plugins;
 			path = "Simple Connector/Plugins";
@@ -410,6 +415,7 @@
 				6DC2F123E7E14B6B8CF5BF5B /* CDVFile.m in Sources */,
 				C6034EDAD57342749E0B02DC /* CDVLocalFilesystem.m in Sources */,
 				B46A0110B0CB4611B18E93F1 /* CDVAssetLibraryFilesystem.m in Sources */,
+				51B573B877AF4D08A5A3BC96 /* CDVStatusBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +448,7 @@
 				INFOPLIST_FILE = "Simple Connector/Simple Connector-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.phonegap.helloworld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phonegap.simpleconnector;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -464,7 +470,7 @@
 				INFOPLIST_FILE = "Simple Connector/Simple Connector-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.phonegap.helloworld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phonegap.simpleconnector;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -508,7 +514,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.phonegap.helloworld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phonegap.simpleconnector;
 			};
 			name = Debug;
 		};
@@ -548,7 +554,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.phonegap.helloworld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.phonegap.simpleconnector;
 			};
 			name = Release;
 		};

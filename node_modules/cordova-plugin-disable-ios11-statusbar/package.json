@@ -1,0 +1,53 @@
+{
+  "_from": "cordova-plugin-disable-ios11-statusbar",
+  "_id": "cordova-plugin-disable-ios11-statusbar@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-EXeHux6wO5ySih9LA/ZOBb4pnpk=",
+  "_location": "/cordova-plugin-disable-ios11-statusbar",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-disable-ios11-statusbar",
+    "name": "cordova-plugin-disable-ios11-statusbar",
+    "escapedName": "cordova-plugin-disable-ios11-statusbar",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-disable-ios11-statusbar/-/cordova-plugin-disable-ios11-statusbar-1.0.0.tgz",
+  "_shasum": "117787bb1eb03b9c928a1f4b03f64e05be299e99",
+  "_spec": "cordova-plugin-disable-ios11-statusbar",
+  "_where": "/Applications/XAMPP/xamppfiles/htdocs/shareoils",
+  "author": {
+    "name": "jcesarmobile"
+  },
+  "bugs": {
+    "url": "https://github.com/jcesarmobile/cordova-plugin-disable-ios11-statusbar/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-disable-ios11-statusbar",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Plugin to disable the iOS 11 statusbar",
+  "homepage": "https://github.com/jcesarmobile/cordova-plugin-disable-ios11-statusbar#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-disable-ios11-statusbar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcesarmobile/cordova-plugin-disable-ios11-statusbar.git"
+  },
+  "version": "1.0.0"
+}

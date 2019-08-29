@@ -1,0 +1,12 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "Simple Connector",
+  "short_name": "Simple Connector",
+  "version": "com.phonegap.simpleconnector",
+  "description": "Simple Connector",
+  "author": "PhoneGap Team",
+  "icons": [],
+  "start_url": "index.html",
+  "theme_color": "transparent"
+}

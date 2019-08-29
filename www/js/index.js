@@ -36,8 +36,11 @@ var app = {
         app.receivedEvent('deviceready');
 
         navigator.splashscreen.hide();
-        
+
         StatusBar.overlaysWebView(true);
+        StatusBar.styleDefault();
+        StatusBar.styleLightContent();
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -51,3 +54,7 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+//by ivey this is because jquery mobile overlapping styling 
+$(document).on('mobileinit', function () {
+    $.mobile.ignoreContentEnabled = true;
+});

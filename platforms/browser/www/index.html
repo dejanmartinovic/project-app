@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <!--
     Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
 
@@ -27,9 +27,12 @@
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="viewport" content="initial-scale=1, width=device-width, height=device-height, viewport-fit=cover">
+    <meta name="viewport" content="viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
     <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+  <!--
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+-->
+
     <!-- Good default declaration:
     * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
     * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
@@ -45,446 +48,1216 @@
     <link rel="stylesheet" href="css/jqm-demos.css">
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
+
+
     <title>Share The Oils</title>
+
+    <style type="text/css">
+    .status-loading{
+      opacity:.3 !important;
+      background:#000 !important;
+    }
+    #form_contact .active,
+    .btn-active{
+      background:#f3f3f3 !important;
+    }
+    .formfield .ui-input-text{
+      min-height:50px !important;
+    }
+
+    #dialog_content, .dialog_content, .contacts_table{
+       -webkit-overflow-scrolling: touch;
+    }
+
+    #email_dialog #dialog_content,
+    #email_dialog .dialog_content  {
+        overflow: auto;
+        max-height: 82vh;
+        margin-top: 39px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .ui-content{
+      -webkit-overflow-scrolling: touch;
+    }
+    /*.edit_contact_area_campaign-btn{
+      padding:20px;
+    }*/
+    .keyboard-open{
+      border:1px solid red !important;
+    }
+    .scroll-content {
+        padding-bottom: 0 !important;
+        border:1px solid red;
+        background:red;
+    }
+    ion-grid {
+        min-height: 100%;
+    }
+
+    #contact-form{
+      overflow:auto;
+      max-height:100vh;
+      padding-bottom:150px;
+    }
+
+    .add-contact-bottom-bar.add-contact-1{
+        display:block;
+    }
+
+
+    .keyboard-open .add-contact-bottom-bar.add-contact-1,
+    .add-contact-bottom-bar.add-contact-2{
+        display:none;
+    }
+
+    .keyboard-open #contact-form {
+      max-height:55vh;
+      border:1px solid blue;
+      padding-top:20px;
+    }
+
+    .keyboard-open .add-contact-bottom-bar.add-contact-2 *{
+      touch-action: none !important;
+    }
+    .keyboard-open .add-contact-bottom-bar.add-contact-2, .keyboard-open .buttonbacksave{
+        border:1px solid red;
+        width:100%;
+        z-index:999;
+        position: fixed;
+        top:0px;
+        margin-top:47vh;
+        z-index:999;
+        display:block !important;
+        background:#fff;
+        touch-action: none !important;
+    }
+
+    .main-content-wrapper{
+      background: #ffffff;
+      overscroll-behavior: none !important;
+      position:fixed;
+      height:100%;
+      width:100%;
+      left:0px;
+      top:0px
+    }
+    div, section{
+      overscroll-behavior: contain !important;
+    }
+
+
+    </style>
+
 </head>
 
-<body>
+<body style="" class="">
 
-    <!-- Start of universal footer -->
-    <div id="universal-footer" data-role="footer" data-position="fixed" data-tap-toggle="false" style="display: none;">
-        <div data-role="navbar">
-            <ul>
-                <li><a id="page_today" href="#today" data-href="today"><i class="fa fa-calendar"></i><br>Today</a></li>
-                <li><a id="page_prospect" href="#prospect" data-href="prospect"><i class="fa fa-user"></i><br>Prospects</a></li>
-                <li><a id="page_add_contact" href="#add_contact" data-href="add_contact"><i class="fa fa-plus-circle"></i><br>Add</a></li>
-                <li><a id="page_email" href="#email_dialog"><i class="fa fa-envelope"></i><br>Email</a></li>
-                <li><a id="page_settings" href="#page_settings"><i class="fa fa-question-circle"></i><br>Help</a></li>
-            </ul>
-        </div>
-    </div>
+  <div style="position:fixed;
+            top:0px;
+            left:0px;
+            height:100vh;
+            z-index:999999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:#fff;
+            width:100%
+        " class="custom-splash-screen">
 
-    <!-- Start of first page -->
-    <div data-role="page" id="login">
+      <img src="icon.png" style="width:100px;">
 
-        <div class="app">
-
-            <div id="result"></div>
-
-            <div class="login-logo">
-                  <img src="images/logosc.png" style="margin-bottom: 18%;">
-            </div>
-
-            <div class="login-content">
-                <a id="today_btn" href="#today" data-transition="slideup" style="visibility: hidden;">bar</a>
-                <form id="login-form" method="POST" action="#">
-                    <div id="loginformwrapper">
-                    <div id="usercircle">
-                        <img src="images/user_circle_white.svg" width="58">
-                    </div>
-
-                    <!-- <h1 class="h3 mb-0 font-weight-light">Sign In</h1> -->
-                        <input type="hidden" name="page_from" value="qfsso" />
-
-                        <label for="inputEmail" class="sr-only">Username</label>
-                        <input type="email" id="login_username" name="login_username" placeholder="EMAIL" value="">
-
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <input type="password" id="login_password" name="login_username" placeholder="PASSWORD" value="" autocomplete="off">
-
-                        <input id="login_btn" class="foo" type="button" data-mini="true" name="" value="Login">
-                    </div>
-
-                    <p class="mt-3 mb-3" style="color:#31bfcb;font-size:13px">
-                        <a id="forgot_password_link" href="#" data-target="#reset_password" data-toggle="modal" data-trigger="modal" style="color: #31bfcb;text-decoration: none;text-shadow: 1px 1px 5px #fff;font-size: 13px;font-weight: 400;">
-                            Forgot Password?
-                        </a>
-                    </p>
-                </form>
-            </div>
-        </div>
-    </div><!-- /page -->
-
-    <!-- Start of second page -->
-    <div data-role="page" id="today" data-theme="a">
-
-        <div data-role="panel" id="mypanel">
-            <!-- panel content goes here -->
-            <ul>
-                <li><a href="#">Menu 1</a></li>
-                <li><a href="#">Menu 2</a></li>
-                <li><a href="#">Menu 3</a></li>
-                <li><a href="#">Menu 4</a></li>
-                <li><a href="#">Menu 5</a></li>
-                <li><a id="logout" href="#">Logout</a></li>
-            </ul>
-        </div><!-- /panel -->
-
-        <h1>Todays Task</h1>
-
-        <div style="width: 100%; overflow: auto;margin-top: 10%;" id="todaylist_tasks">
-
-            <div id="todays_content_wrapper">
-
-                <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="todays_content">
+  </div>
 
 
-                </div>
 
-            </div>
+  <section class="main-content-wrapper" style="display:none;" >
+      <div class="for-status-bar" style="min-height: 35px;padding: 0;position: fixed;background-color: #008cbd;width: 100%;display: none;">
+      </div>
 
-        </div>
-    </div><!-- /page -->
-
-
-    <!--Prospect -->
-    <div data-role="page" id="prospect" data-theme="a">
-
-        <div data-role="panel" id="mypanel">
-            <!-- panel content goes here -->
-            <ul>
-                <li><a href="#">Menu 1</a></li>
-                <li><a href="#">Menu 2</a></li>
-                <li><a href="#">Menu 3</a></li>
-                <li><a href="#">Menu 4</a></li>
-                <li><a href="#">Menu 5</a></li>
-                <li><a id="logout" href="#">Logout</a></li>
-            </ul>
-        </div><!-- /panel -->
-        <div class="header" data-role="header" data-position="inline">
-            <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
-                <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
-            </div>
-
-        </div>
-        <div data-role="content" id="prospectpage" data-theme="a">
-
-          <div id="prospectwrapper">
-            <div class="prospectheader-fixed">
-            <ul class="nav nav-tabs">
-              <li class="nav-item active">
-                <a data-toggle="tab" class="nav-link active" href="#allcontacts">All</a>
-              </li>
-              <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="#todayscall">Today</a>
-              </li>
-              <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="#lastdays">Recent</a>
-              </li>
-              <li class="nav-item">
-                <a data-toggle="tab" class="nav-link" href="#teamcontacts">Team</a>
-              </li>
-            </ul>
-
-            <div id="contactsearch">
-              <input type="search" class="form-control" placeholder="Search" aria-controls="datatable_contacts">
-            </div>
-            <div id="contactoptions">
+      <!-- Start of universal footer -->
+      <div id="universal-footer" data-role="footer" data-position="fixed" data-tap-toggle="false" style="display: none;">
+          <div data-role="navbar">
               <ul>
-                <li id="emailcontact"><button id="email-composer-btn" class="ui-btn">Email</button></li>
-                <li id="deletecontact"><input id="delete-contact-btn" type="button" value="Delete"></li>
-                <li id="deletecontact"><button id="sync-contact-btn" class="ui-btn">Sync</button></li>
+                  <li><a id="page_today" href="#today" data-href="today" data-globalmenu="1" ><i class="fa fa-calendar"></i><br>Today</a></li>
+                  <li><a id="page_prospect" href="#prospect" data-href="prospect" data-globalmenu="1" ><i class="fa fa-user"></i><br>Prospects</a></li>
+                  <li><a id="page_add_contact" href="#add_contact" data-href="add_contact" data-globalmenu="1" ><i class="fa fa-plus-circle"></i><br>Add</a></li>
+                  <li><a id="page_email" href="#email_page" data-href="email_page" data-globalmenu="1" ><i class="fa fa-envelope"></i><br>Email</a></li>
+                  <li><a id="page_settings" href="#page_settings" data-href="page_settings" data-globalmenu="1" ><i class="fa fa-question-circle"></i><br>Help</a></li>
+              </ul>
+          </div>
+      </div>
+
+      <!-- Start of first page -->
+      <div data-role="page" id="login" class="page-login" style="display:none">
+
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;position: fixed;width: 100%;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
+
+
+
+          <div class="app">
+
+              <div id="result"></div>
+
+              <div class="login-logo">
+                    <img src="images/logosc.png" style="margin-bottom: 18%;">
+              </div>
+
+              <div class="login-content">
+                  <a id="today_btn" href="#today" data-transition="slideup" style="visibility: hidden;">bar</a>
+                  <form id="login-form" method="POST" action="#">
+                      <div id="loginformwrapper">
+                      <div id="usercircle">
+                          <img src="images/user_circle_white.svg" width="58">
+                      </div>
+
+                      <!-- <h1 class="h3 mb-0 font-weight-light">Sign In</h1> -->
+                          <input type="hidden" name="page_from" value="qfsso" />
+
+                          <label for="inputEmail" class="sr-only">Username </label>
+                          <input type="email" id="login_username" name="login_username" placeholder="EMAIL" value="demo@onlineretailbms.com">
+
+                          <label for="inputPassword" class="sr-only">Password</label>
+                          <input type="password" id="login_password" name="login_username" placeholder="PASSWORD" value="" autocomplete="off">
+
+                          <button id="login_btn" class="" type="button" data-mini="true" name="" value="Login">Login</button>
+                      </div>
+
+                      <p class="mt-3 mb-3" style="color:#31bfcb;font-size:13px">
+                          <a id="forgot_password_link" href="#" data-target="#reset_password" data-toggle="modal" data-trigger="modal" style="color: #31bfcb;text-decoration: none;text-shadow: 1px 1px 5px #fff;font-size: 13px;font-weight: 400;">
+                              Forgot Password?
+                          </a>
+                      </p>
+                  </form>
+              </div>
+          </div>
+      </div><!-- /page -->
+
+      <!-- Start of second page -->
+      <div data-role="page" id="today" data-theme="a" class="page-today"  >
+
+
+          <div data-role="panel" id="mypanel">
+              <!-- panel content goes here -->
+              <ul>
+
+                  <li><a id="logout" href="#">Logout</a></li>
+              </ul>
+          </div><!-- /panel -->
+
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
+
+          <div data-role="content" id="todaywrapper" data-theme="a">
+              <div id="topheaderform">
+                <ul style="padding-bottom: 35px;">
+                  <li style="width: 28%;" data-role="none"></li>
+                  <li style="    width: 100%;" data-role="none"><h1>Todays Task</h1></li>
+                  <li class="textright jqm" data-role="none"></li>
+                </ul>
+              </div>
+              <div style="width: 100%;overflow: auto;margin-top: 0;" id="todaylist_tasks">
+
+                  <div id="todays_content_wrapper" class="formwrapper">
+
+                      <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="todays_content">
+
+
+                      </div>
+
+                  </div>
+
+              </div>
+          </div>
+      </div><!-- /page -->
+
+
+      <!--Prospect -->
+      <div data-role="page" id="prospect" data-theme="a">
+ 
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
+          <div data-role="content" id="prospectpage" data-theme="a">
+
+            <div id="prospectwrapper">
+              <div class="prospectheader-fixed">
+              <ul class="nav nav-tabs">
+                <li class="nav-item active">
+                  <a data-toggle="tab" class="nav-link active" href="#allcontacts">All</a>
+                </li>
+                <li class="nav-item">
+                  <a data-toggle="tab" class="nav-link" href="#todayscall">Today</a>
+                </li>
+                <li class="nav-item">
+                  <a data-toggle="tab" class="nav-link" href="#lastdays">Recent</a>
+                </li>
+                <li class="nav-item">
+                  <a data-toggle="tab" class="nav-link" href="#teamcontacts">Team</a>
+                </li>
               </ul>
 
-            </div>
-          </div><!-- wrapper -->
-            <div class="tab-content">
-                <div id="allcontacts" class="tab-pane fade in active">
+              <div id="contactsearch">
+                <input type="search" class="form-control prospects-search-contacts" placeholder="Search " aria-controls="datatable_contacts">
+              </div>
+              <div id="contactoptions">
+                <ul>
+                  <li id="emailcontact"><button id="email-composer-btn" class="ui-btn">Email</button></li>
+                  <li id="deletecontact"><input id="delete-contact-btn" type="button" value="Delete"></li>
+                  <li id="synccontact"><button id="sync-contact-btn" class="ui-btn">Sync</button></li>
+                </ul>
 
-                    <div style="width: 100%; overflow: auto">
+              </div>
+            </div><!-- wrapper -->
+              <div class="tab-content">
+                    <div class="result-sync-contacts" style="padding: 0px;text-align: center;"></div>
 
-                      <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="contact_table">
+                  <div id="allcontacts" class="tab-pane fade in active">
+
+                      <div style="width: 100%; overflow: auto; position:relative" class="parent_contactable">
+                        <div class="contacts_table" >
+
+                        </div>
+                      </div>
+                  </div>
+                  <div id="todayscall" class="tab-pane fade">
+
+                    <div class="parent_contactable" style="width: 100%; overflow: auto">
+
+ 
+                      <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="todayscall_contact">
 
 
                       </div>
                     </div>
-                </div>
-                <div id="todayscall" class="tab-pane fade">
-
-                  <div style="width: 100%; overflow: auto">
-                  <!--    <div id="contact_tables">
-
-                      <ul>
-                        <div class="contactimage align-left"><input type="checkbox"/></div>
-                        <div class="align-left contact_info">
-                        <li>Last Name First Name</li>
-                        <li>Email</li>
-                        <li>Phone</li>
-                        <li>Campaign</li>
-                        <li>Group</li>
-                        </div>
-                      </ul>
-                    </div>
-                    -->
-                    <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="todayscall_contact">
 
 
-                    </div>
+
                   </div>
+                  <div id="lastdays" class="tab-pane fade">
+
+                    <div style="width: 100%; overflow: auto" class="parent_contactable">
+
+ 
+                      <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="lastdaysdata">
 
 
-
-                </div>
-                <div id="lastdays" class="tab-pane fade">
-
-                  <div style="width: 100%; overflow: auto">
-                  <!--    <div id="contact_tables">
-
-                      <ul>
-                        <div class="contactimage align-left"><input type="checkbox"/></div>
-                        <div class="align-left contact_info">
-                        <li>Last Name First Name</li>
-                        <li>Email</li>
-                        <li>Phone</li>
-                        <li>Campaign</li>
-                        <li>Group</li>
-                        </div>
-                      </ul>
+                      </div>
                     </div>
-                    -->
-                    <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="lastdaysdata">
 
-
-                    </div>
                   </div>
+                  <div id="teamcontacts" class="tab-pane fade">
 
-                </div>
-                <div id="teamcontacts" class="tab-pane fade">
+                    <div style="width: 100%; overflow: auto" class="parent_contactable">
 
-                  <div style="width: 100%; overflow: auto">
-                  <!--    <div id="contact_tables">
+ 
+                      <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="teamdata">
 
-                      <ul>
-                        <div class="contactimage align-left"><input type="checkbox"/></div>
-                        <div class="align-left contact_info">
-                        <li>Last Name First Name</li>
-                        <li>Email</li>
-                        <li>Phone</li>
-                        <li>Campaign</li>
-                        <li>Group</li>
-                        </div>
-                      </ul>
+
+                      </div>
                     </div>
-                    -->
-                    <div data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" data-column-btn-text="Click here!" id="teamdata">
 
-
-                    </div>
                   </div>
+              </div>
 
-                </div>
             </div>
 
           </div>
-
-        </div>
-    </div><!-- /page -->
+      </div><!-- /page -->
 
 
 
-    <!-- Start of second page -->
-    <div data-role="page" id="add_contact" data-theme="a">
+      <!-- Start of second page -->
+      <div data-role="page" id="add_contact" data-theme="a" style="padding:0px ; margin:0px !important">
 
+          <div data-role="panel" id="mypanel">
+              <!-- panel content goes here -->
+              <ul>
+                  <li><a href="#">Menu 1</a></li>
+                  <li><a href="#">Menu 2</a></li>
+                  <li><a href="#">Menu 3</a></li>
+                  <li><a href="#">Menu 4</a></li>
+                  <li><a href="#">Menu 5</a></li>
+                  <li><a id="logout" href="#">Logout</a></li>
+              </ul>
+          </div><!-- /panel -->
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;z-index: 999;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
+          <div data-role="content" data-theme="a" class="add-contact-sections">
+
+              <a id="contact_error_btn" href="#contact_error" data-rel="dialog" data-transition="pop" style="visibility: hidden;">Open dialog</a>
+
+              <div id="contact-form" style="margin-top: 5px; overflow:auto; ">
+                  <form id="add-contact-form" method="POST" action="#"  data-ajax="false">
+
+
+                    <div id="formwrapper " style="padding:0px ; margin:0px !important">
+
+                      <div id="result-add-contact"></div>
+
+                      <div class="formfield">
+                        <div class="alignleft sidebysideform">
+                          <input type="text" id="first_name" name="first_name" placeholder="First Name" value="">
+                        </div>
+                        <div class="alignleft sidebysideform" style="margin-left:15px;">
+                          <input type="text" id="last_name" name="last_name" placeholder="Last Name" value="">
+                        </div>
+                      </div>
+
+                      <div class="formfield">
+                        <input type="text" id="email" name="email" placeholder="example@email.com" value="" required>
+                      </div>
+                      <div class="formfield">
+                        <input type="text" id="phone" name="phone" placeholder="Phone Number" value="">
+                      </div>
+                      <div class="formfield" style="height:100%;">
+                          <textarea name="notes" class="borderbottomonly" data-role="none" placeholder="Write a note for this contact" style="line-height:50px; padding-top:30px; width:100%;"></textarea>
+                      </div>
+
+                      <div class="formfield">
+                        <select name="follow_number_days">
+                          <option value="nofollowup">Create Followup</option>
+                          <option value="0">Today</option>
+                          <option value="1">Tomorrow</option>
+                                      <option value="2">2 Days After</option>
+                                      <option value="3">3 Days After</option>
+                                      <option value="4">4 Days After</option>
+                                      <option value="5">5 Days After</option>
+                                      <option value="6">6 Days After</option>
+                                      <option value="7">7 Days After</option>
+                                      <option value="8">8 Days After</option>
+                                      <option value="9">9 Days After</option>
+                                      <option value="10">10 Days After</option>
+                                      <option value="11">11 Days After</option>
+                                      <option value="12">12 Days After</option>
+                                      <option value="13">13 Days After</option>
+                                      <option value="14">14 Days After</option>
+                                      <option value="15">15 Days After</option>
+                                      <option value="16">16 Days After</option>
+                                      <option value="17">17 Days After</option>
+                                      <option value="18">18 Days After</option>
+                                      <option value="19">19 Days After</option>
+                                      <option value="20">20 Days After</option>
+                                      <option value="21">21 Days After</option>
+                                      <option value="22">22 Days After</option>
+                                      <option value="23">23 Days After</option>
+                                      <option value="24">24 Days After</option>
+                                      <option value="25">25 Days After</option>
+                                      <option value="26">26 Days After</option>
+                                      <option value="27">27 Days After</option>
+                                      <option value="28">28 Days After</option>
+                                      <option value="29">29 Days After</option>
+                                      <option value="30">30 Days After</option>
+                                    </select>
+                        </div>
+
+
+
+
+
+                        <div class="formfield" style="padding:17px 0;">
+                          <input type="hidden" id="add_contact_cp_gid" name="cp_gid">
+                          <div style="text-align: left;"><span>Select Campaign</span><a href="#" style="text-align: right;float: right;" class="add_contact_campaign" data-cp_gid="0" data-cid=""> <span class="camp_name">Campaign Names</span> <img src="images/rightarrow.png" width="10"></a></div>
+
+                        </div>
+                        <div class="formfield" style="padding:17px 0;">
+                          <div class="hdn_group_wrapper"></div>
+                          <div style="text-align: left;">
+                            <a href="#" class="add_contact_group" data-cid="">
+                            <span style="float: left;  width: 63%;color:#383838;font-weight: normal;">Select Groups</span>
+                            <div class="group_name_wrapper" style="float: left;">
+                              <span class="default" style="margin-right:0;">Group Names</span>
+                            </div>
+                              <img src="images/rightarrow.png" width="10" style="float:right;margin:2px 0;">
+                            </a>
+                          </div>
+
+                        </div>
+
+
+
+                      <div class="formfield collapsewrap">
+                        <div data-role="collapsible">
+                          <h4>Add Referral</h4><div class="collapsediv">
+                            <div class="formfield">
+                              <input type="text" id="referral_first_name" name="referral_first_name" placeholder="Referral First Name" value="" style="margin:0;">
+                            </div>
+
+                            <div class="formfield">
+                              <input type="text" id="referral_last_name" name="referral_last_name" placeholder="Referral Last Name" value="">
+                            </div>
+                            <div class="formfield">
+                              <input type="text" id="referral_email" name="referral_email" placeholder="Ref. Email" value="">
+                            </div>
+                            <div class="formfield">
+                              <input type="text" id="referral_phone" name="referral_phone" placeholder="Ref. Phone" value="">
+                            </div>
+                          </div>
+
+
+                        </div>
+
+                      </div>
+
+
+
+
+
+                    </div>
+                  </form>
+
+
+                  <div class="add-contact-bottom-bar add-contact-1 ">
+                   
+                    <div class="savecontactformbtn">
+                      <input id="add-contact-btn" data-role="none" type="button" data-mini="true" class="custom_btn" name="" value="Save">
+                    </div>
+                  </div>
+
+              </div>
+
+              <div id="add-contact-success" style="display: none;">
+
+              </div>
+
+
+          </div>
+
+          <div class="add-contact-bottom-bar add-contact-2">
+            <!-- <ul>
+             <li style="width: 28%;" data-role="none"><a data-mini="true" style="line-height: 2em;" data-container="add_contact_task" class="ui-btn custom_btn canceltextviewcontact slide-page-container"></a></li>
+              <li style="width: 37%;" data-role="none"><input id="new-contact-btn" data-role="none" type="button" data-mini="true" value="New Contact"></li>
+              <li id="add-contact-btn" class="textright jqm" data-role="none"><input data-role="none" type="button" data-mini="true" class="custom_btn" name="" value="Save"></li>
+            </ul>-->
+            <div class="savecontactformbtn">
+              <input data-role="none" type="button" data-mini="true" class="custom_btn" name="" value="Save">
+            </div>
+          </div>
+
+      </div><!-- /page -->
+
+      <div data-role="page" id="forgotpage" data-theme="a">
         <div data-role="panel" id="mypanel">
-            <!-- panel content goes here -->
-            <ul>
-                <li><a href="#">Menu 1</a></li>
-                <li><a href="#">Menu 2</a></li>
-                <li><a href="#">Menu 3</a></li>
-                <li><a href="#">Menu 4</a></li>
-                <li><a href="#">Menu 5</a></li>
-                <li><a id="logout" href="#">Logout</a></li>
-            </ul>
-        </div><!-- /panel -->
-        <div class="header" data-role="header" data-position="inline">
+        </div>
+        <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;z-index: 999;">
             <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
                 <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
             </div>
         </div>
         <div data-role="content" data-theme="a">
 
-            <a id="contact_error_btn" href="#contact_error" data-rel="dialog" data-transition="pop" style="visibility: hidden;">Open dialog</a>
+          <div style="margin-top: 72px;">
+            <h1>Forgot Password</h1>
+            <div id="send-email-message-qfsso" style="font-size: 13px;"></div>
 
-            <div id="contact-form">
-                <form id="add-contact-form" method="POST" action="#"  data-ajax="false">
-                  <div id="topheaderform">
-                    <ul>
-                      <li style="padding: 0;"><a href="#prospect" data-mini="true" class="ui-btn custom_btn"><img src="images/backarrow.png" width="10"></a></li>
-                      <li><input id="new-contact-btn" type="button" data-mini="true" value="New Contact"></li>
-                      <li><input id="add-contact-btn" type="button" data-mini="true" class="custom_btn" name="" value="Save"></li>
-                    </ul>
-                  </div>
+            <div class="personal_td" id="resetpassword">
+              <div id="login_box-settings">
+                <div class="resetinputbutton" style="margin-bottom: 32px;">
+                  <input class="form-control" id="user_email" placeholder="Email Address" type="text" value="" style="font-size: 13px;">
+                </div>
+                <button type="button" class="btn btngreen btn-sm" onclick="sendResetPwdLink(this); return false;" style="width: 100%; height: 38px;margin-bottom: 30px;margin-top: -10px;background:#f8267f">SEND RESET LINK</button>
 
-                  <div id="formwrapper">
-
-                    <div id="result-add-contact"></div>
-
-
-                    <div class="formfield">
-                      <input type="text" id="first_name" name="first_name" placeholder="First Name" value="">
-                    </div>
-                    <div class="formfield">
-                      <input type="text" id="last_name" name="last_name" placeholder="Last Name" value="">
-                    </div>
-                    <div class="formfield">
-                      <input type="text" id="email" name="email" placeholder="example@email.com" value="" required>
-                    </div>
-                    <div class="formfield">
-                      <input type="text" id="phone" name="phone" placeholder="Phone Number" value="">
-                    </div>
-                    <div class="formfield">
-                      <textarea name="notes" placeholder="Write a note for this contact"></textarea>
-                    </div>
-                    <div class="formfield">
-                      <select id="campaigns" name="cp_gid">
-                          <option value="0">Select Campaign</option>
-                          <option value="17426">test campaign</option>
-                      </select>
-                    </div>
-                    <div class="formfield">
-                      <select id="group" name="gid">
-                          <option value="0">Select Group</option>
-                          <option value="193">Email Pending</option>
-                          <option value="202">Do Not Pipeline</option>
-                      </select>
-                    </div>
-                    <div class="formfield" style="margin: 18px 0 0 0;">
-                      <input type="text" id="referral_first_name" name="referral_first_name" placeholder="Referral First Name" value="" style="margin:0;">
-                    </div>
-                    <div class="formfield">
-                      <input type="text" id="referral_last_name" name="referral_last_name" placeholder="Referral Last Name" value="">
-                    </div>
-                    <div class="formfield">
-                      <input type="text" id="referral_email" name="referral_email" placeholder="Ref. Email" value="">
-                    </div>
-                    <div class="formfield">
-                      <input type="text" id="referral_phone" name="referral_phone" placeholder="Ref. Phone" value="">
-                    </div>
-                  </div>
-                </form>
-            </div>
-
-            <div id="add-contact-success" style="display: none;">
+                <button type="button" class="btn btngreen btn-sm" style="width: 100%; height: 38px;margin-bottom: 10px;margin-top: -10px;"><a href="#" onclick="javascript:goToURL()"></a>BACK</button>
+              </div>
 
             </div>
+          </div>
+
+
         </div>
-    </div><!-- /page -->
+      </div>
 
-    <!-- Start of second page -->
-    <div data-role="page" id="sucess_page" data-theme="a">
 
-        <div data-role="panel" id="mypanel">
-            <!-- panel content goes here -->
-            <ul>
-                <li><a href="#">Menu 1</a></li>
-                <li><a href="#">Menu 2</a></li>
-                <li><a href="#">Menu 3</a></li>
-                <li><a href="#">Menu 4</a></li>
-                <li><a href="#">Menu 5</a></li>
-                <li><a id="logout" href="#">Logout</a></li>
-            </ul>
-        </div><!-- /panel -->
-        <div class="header" data-role="header" data-position="inline">
+
+      <!-- Start of second page -->
+      <div data-role="page" id="add_contact_task" class="slide-page-container" data-theme="a" style="background:#fff;position: fixed;top:0px;margin-left: 100%;display: block;z-index: 1000;top: 0px; ">
+
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;z-index: 999;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
+          <div data-role="content" data-theme="a">
+
+              <a id="contact_error_btn" href="#contact_error" data-rel="dialog" data-transition="pop" style="visibility: hidden;">Open dialog</a>
+
+              <div id="contact-form-task">
+                  <form id="add-contact-task-form" method="POST" action="#"  data-ajax="false">
+                <!--    <div id="topheaderform">
+                      <ul style="padding-top: 0px;padding-bottom: 0;height:53px;">
+                        <li><a href="#prospect" data-mini="true" data-container="add_contact_task" class="ui-btn custom_btn canceltext">Cancel</a></li>
+                        <li><input id="new-contact-task-btn" data-role="none" type="button" data-mini="true" value="Add Task"></li>
+
+                        <li class="textright"><a href="#"><input id="add-contact-task-btn" type="button" data-mini="true" class="custom_btn" name="" value="Done"></a></li>Nest, pa change daw ni ang function, wala na message, pagpindot deretso balik sa prospect view
+                      </ul>
+                    </div>-->
+
+                    <div id="formwrapper" class="formcontainer">
+
+                      <div id="result-add-contact-task"></div>
+
+                        <input type="hidden" id="uid" name="uid" value="">
+                        <input type="hidden" id="cid" name="cid" value="">
+                      <div class="formfield">
+                        <input type="text" id="title" name="title" placeholder="Title" value="" class="borderbottomonly">
+                      </div>
+                      <div class="formfield">
+                        <input type="date" data-clear-btn="true" id="task_date" placeholder="Set a date" name="task_date" class="borderbottomonly">
+                      </div>
+                      <div class="formfield">
+                        <input type="time" data-clear-btn="true" id="task_time" placeholder="Set a time" name="task_time" class="borderbottomonly">
+                      </div>
+                      <div class="formfield">
+                        <label class="container">Call
+                          <input type="checkbox" name="type" class="task_type" value="call" checked="checked">
+                          <span class="checkmark"></span>
+                        </label>
+                        <label class="container">Personal
+                          <input type="checkbox" name="type" class="task_type" value="personal" >
+                          <span class="checkmark"></span>
+                        </label>
+                        <label class="container" >Email
+                          <input type="checkbox" name="type" class="task_type" value="email" >
+                          <span class="checkmark"></span>
+                        </label>
+                        <label class="container">Appointment
+                          <input type="checkbox" name="type" class="task_type" value="appointment" >
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                      <div class="formfield">
+                          <textarea name="comment" placeholder="Write a comment for this task" style="line-height:50px; padding-top:30px"></textarea>
+                      </div>
+
+                      <div class="buttonbacksave" style="padding-top: 150px;">
+                        <div class="alignleft halfwidth">
+                          <a href="#prospect" data-mini="true" data-container="add_contact_task" class="ui-btn custom_btn" style="background: #31bfcb;border-radius:10px;"> Cancel</a>
+                        </div>
+                        <div class="alignleft halfwidth savebtneditcontact" style="padding: 7px; text-align:center;">
+                          <a href="#" style="background: none;"><input id="add-contact-task-btn" type="button" data-mini="true" class="custom_btn" name="" value="Done" style="color: #fff;"></a>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+
+                  </form>
+              </div>
+
+              <div id="add-contact-success" style="display: none;">
+
+              </div>
+          </div>
+      </div><!-- /page -->
+
+      <!-- Start of second page -->
+      <div class="slide-page-container"  data-role="page" id="add_contact_note" data-theme="a"
+      style="background:#fff;position: fixed;top:0px;margin-left: 100%;display: block;z-index: 1000;top: 0px; padding-right:20px; padding-left:20px">
+
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;z-index: 999;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
+          <div data-role="content" data-theme="a">
+
+              <a id="contact_error_btn" href="#contact_error" data-rel="dialog" data-transition="pop" style="visibility: hidden;">Open dialog</a>
+
+              <div id="contact-form-task">
+                  <form id="add-contact-note-form" method="POST" action="#"  data-ajax="false">
+                    <div id="topheaderform">
+                      <ul>
+                        <li><a href="#prospect" data-mini="true" data-container="add_contact_note" class="ui-btn custom_btn">Cancel</a></li>
+                        <li><input id="new-contact-note-btn" type="button" data-mini="true" value="Add Note"></li>
+                        <li style="text-align: right;"><input id="add-contact-note-btn" type="button" data-mini="true" class="custom_btn" name="" value="Done"></li><!--Nest, pa change daw ni ang function, wala na message, pagpindot deretso balik sa prospect view -->
+                      </ul>
+                    </div>
+
+                    <div id="formwrapper" class="formcontainer">
+
+                      <div id="result-add-contact-note"></div>
+
+                        <input type="hidden" id="note_uid" name="uid" value="">
+                        <input type="hidden" id="note_cid" name="cid" value="">
+
+                      <div class="formfield">
+                          <textarea id="add-contact-note-content" name="content" placeholder="Write a note for this contact" style="line-height:50px;"></textarea>
+                      </div>
+                    </div>
+                  </form>
+              </div>
+
+              <div id="add-contact-success" style="display: none;">
+
+              </div>
+          </div>
+      </div><!-- /page -->
+
+      <!-- Start of second page -->
+      <div data-role="page" id="edit_contact_task" class="slide-page-container" data-theme="a" style="background:#fff;position: fixed;top:0px;margin-left: 100%;display: block;z-index: 1000;top: 0px; padding-right:20px; padding-left:20px">
+
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;z-index: 999;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
+          <div data-role="content" data-theme="a">
+
+              <a id="contact_error_btn" href="#contact_error" data-rel="dialog" data-transition="pop" style="visibility: hidden;">Open dialog</a>
+
+              <div id="contact-form-task">
+                  <form id="edit-contact-task-form" method="POST" action="#"  data-ajax="false">
+                    <div id="topheaderform">
+                      <ul style="text-align: center;">
+                        <li style="width: 100%;"><input id="new-contact-task-btn" type="button" data-mini="true" value="Edit Task"></li>
+                      </ul>
+                    </div>
+
+                    <div id="formwrapper" class="formcontainer">
+
+                      <div id="result-edit-contact-task"></div>
+
+                        <input type="hidden" id="edit_task_uid" name="uid" value="">
+                        <input type="hidden" id="edit_task_did" name="did" value="">
+                      <div class="formfield">
+                        <input type="text" id="edit_task_title" name="task_title" placeholder="Title" value="" class="borderbottomonly">
+                      </div>
+                      <div class="formfield">
+                        <input type="date" id="edit_task_date" name="task_date" class="borderbottomonly">
+                      </div>
+                      <div class="formfield">
+                        <input type="time" id="edit_task_time" name="task_time" class="borderbottomonly">
+                      </div>
+                      <div class="formfield" style="margin-top: 30px;">
+                        <label class="container">Call
+                          <input type="checkbox" name="task_type" class="task_type" value="call" checked="checked">
+                          <span class="checkmark"></span>
+                        </label>
+                        <label class="container">Personal
+                          <input type="checkbox" name="task_type" class="task_type" value="personal" >
+                          <span class="checkmark"></span>
+                        </label>
+                        <label class="container" >Email
+                          <input type="checkbox" name="task_type" class="task_type" value="email" >
+                          <span class="checkmark"></span>
+                        </label>
+                        <label class="container">Appointment
+                          <input type="checkbox" name="task_type" class="task_type" value="appointment" >
+                          <span class="checkmark"></span>
+                        </label>
+                      </div>
+                      <div class="formfield">
+                          <textarea id="edit_task_comment" name="task_comment" placeholder="Write a comment for this task" style="line-height:50px; padding-top:30px"></textarea>
+                      </div>
+
+                      <div class="buttonbacksave" style="padding-top: 150px;">
+                        <div class="alignleft halfwidth">
+                          <a href="#prospect" data-mini="true" data-container="edit_contact_task" class="ui-btn custom_btn" style="background: #31bfcb;border-radius:10px;"> Cancel</a>
+                        </div>
+                        <div class="alignleft halfwidth savebtneditcontact" style="padding: 10px; text-align:center;width: 140px;">
+                          <input id="edit-contact-task-btn" type="button" data-mini="true" class="custom_btn" name="" value="Save" style="color: #fff;">
+                        </div>
+                      </div>
+
+                      <div class="formfield" style="margin-top: 60px;">
+                          <input id="" style="background: #fff;" type="button" data-mini="true" class="custom_btn delete_contact_task" name="" value="Delete">
+                      </div>
+
+                    </div>
+                  </form>
+              </div>
+
+              <div id="add-contact-success" style="display: none;">
+
+              </div>
+          </div>
+      </div><!-- /page -->
+
+      <!-- Start of second page -->
+      <div data-role="page" id="edit_contact_note" class="slide-page-container" data-theme="a" style="background:#fff;position: fixed;top:0px;margin-left: 100%;display: block;z-index: 1000;top: 0px; padding-right:20px; padding-left:20px">
+
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;z-index: 999;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
+          <div data-role="content" data-theme="a">
+
+              <a id="contact_error_btn" href="#contact_error" data-rel="dialog" data-transition="pop" style="visibility: hidden;">Open dialog</a>
+
+              <div id="contact-form-task">
+                  <form id="edit-contact-note-form" method="POST" action="#"  data-ajax="false">
+                    <div id="topheaderform">
+                      <ul style="text-align: center;">
+                        <li style="width: 100%;"><input id="new-contact-note-btn" type="button" data-mini="true" value="Edit Note"></li>
+                      </ul>
+                    </div>
+
+                    <div id="formwrapper" class="formcontainer">
+
+                      <div id="result-edit-contact-note"></div>
+
+                        <input type="hidden" id="note_uid" name="uid" value="">
+                        <input type="hidden" id="note_nid" name="nid" value="">
+
+                      <div class="formfield">
+                          <textarea id="note_content" name="content" placeholder="Write a note for this contact" style="line-height:50px;"></textarea>
+                      </div>
+
+                      <div class="buttonbacksave" style="padding-top: 150px;">
+                        <div class="alignleft halfwidth">
+                          <a href="#prospect" data-mini="true" data-container="edit_contact_note" class="ui-btn custom_btn" style="background: #31bfcb;border-radius:10px;"> Cancel</a>
+                        </div>
+                        <div class="alignleft halfwidth savebtneditcontact" style="padding: 10px; text-align:center;width: 140px;">
+                          <input id="edit-contact-note-btn" type="button" data-mini="true" class="custom_btn" name="" value="Save" style="color: #fff;">
+                        </div>
+                      </div>
+
+                      <div class="formfield" style="margin-top: 90px;">
+                          <input id="" style="background: #fff;" type="button" data-mini="true" class="custom_btn delete_contact_note" name="" value="Delete">
+                      </div>
+                    </div>
+                  </form>
+              </div>
+
+              <div id="add-contact-success" style="display: none;">
+
+              </div>
+          </div>
+      </div><!-- /page -->
+
+      <!-- Start of second page -->
+      <div data-role="page" id="sucess_page" data-theme="a">
+
+          <div data-role="panel" id="mypanel">
+              <!-- panel content goes here -->
+              <ul>
+                  <li><a href="#">Menu 1</a></li>
+                  <li><a href="#">Menu 2</a></li>
+                  <li><a href="#">Menu 3</a></li>
+                  <li><a href="#">Menu 4</a></li>
+                  <li><a href="#">Menu 5</a></li>
+                  <li><a id="logout" href="#">Logout</a></li>
+              </ul>
+          </div><!-- /panel -->
+          <div id="header" data-role="header" data-position="inline">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Share the Oils</h1>
+          </div>
+          <div data-role="content" data-theme="a">
+              <div style="padding-top: 20%; text-align:center;">
+                  Success.  Your prospect is now added.
+
+                  <a href="#prospect" data-mini="true" class="ui-btn custom_btn" style="margin-top: 50px;">Back</a>
+              </div>
+          </div>
+      </div><!-- /page -->
+
+      <!-- Start of second page -->
+      <div data-role="page" id="contact_error" data-theme="a">
+
+          <div data-role="content" data-theme="a">
+              <div style="padding-top: 20%;">
+                  First and Last name should not be empty.
+              </div>
+          </div>
+      </div><!-- /page -->
+
+      <!-- Start view contact page -->
+      <div data-role="page" id="dynamic_dialog" class="viewcontact slide-page-container" data-theme="a" style="background:#fff;position: fixed;top:0px;margin-left: 100%;display: block;z-index: 999;top: 0px;">
+
+        <div id="header" data-role="header" data-position="inline">
             <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
                 <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
             </div>
-            <h1>Share the Oils</h1>
+            <h1>Simple Connector</h1>
         </div>
-        <div data-role="content" data-theme="a">
-            <div style="padding-top: 20%;">
-                Success.  Your prospect is now added.
 
-                <a href="#prospect" data-mini="true" class="ui-btn custom_btn">Back</a>
+          <div class="dialog_content contactinfobox" data-role="content" data-theme="a">
+              <div style="margin-top:40px;">
+                  First and Last name should not be empty.
+              </div>
+          </div>
+      </div><!-- /page -->
+
+      <!-- Start view contact page -->
+      <div data-role="page" id="dynamic_page" class="viewcontact slide-page-container" data-theme="a" style="background:#fff;position: fixed;top:0px;margin-left: 100%;display: block;z-index: 999;top: 0px;">
+
+        <div id="header" data-role="header" data-position="inline">
+            <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
             </div>
+            <h1>Simple Connector</h1>
         </div>
-    </div><!-- /page -->
+        <!-- edit contact page -->
+          <div id="dialog_page_content" data-role="content" data-theme="a">
+              <div class="campaignselect">
+                  First and Last name should not be empty.
+              </div>
+          </div>
+      </div><!-- /page -->
 
-    <!-- Start of second page -->
-    <div data-role="page" id="contact_error" data-theme="a">
 
-        <div data-role="content" data-theme="a">
-            <div style="padding-top: 20%;">
-                First and Last name should not be empty.
+      <div data-role="page" id="edit_contact_camp_group_page" class="viewcontact slide-page-container" data-theme="a" style="background:#fff;position: fixed;top:0px;margin-left: 100%;display: block;z-index: 1001;top: 0px; padding-right:20px; padding-left:20px">
+
+        <div id="header" data-role="header" data-position="inline">
+            <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
             </div>
+            <h1>Simple Connector</h1>
         </div>
-    </div><!-- /page -->
+        <!-- edit contact page -->
+          <div id="edit_camp_group_page" data-role="content" data-theme="a">
+              <div class="campaignselect ">
+                  First and Last name should not be empty.
+              </div>
+          </div>
+      </div><!-- /page -->
 
-    <!-- Start of second page -->
-    <div data-role="page" id="dynamic_dialog" data-theme="a">
 
-        <div id="dialog_content" data-role="content" data-theme="a">
-            <div>
-                First and Last name should not be empty.
+      <!-- Start of email #2-->
+      <div data-role="page" class="slide-page-container" id="email_dialog" data-theme="a" style="background:#fff;position: fixed;top:0px;margin-left: 100%;display: block;z-index: 99999;top: 0px; max-height:100vh; min-height:100vh; overflow:auto">
+
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
+
+            <div class="dialog_content" data-role="content" data-theme="a"  style="padding-bottom:30px !important;max-height: 88vh">
+                <div class="email-form">
+                    <div id="send-email-result"></div>
+                    <form id="send-email-form" method="POST" action="#"  data-ajax="false">
+
+                        <div id="formwrapper" class="formcontainer" style="padding-bottom:30px !important;max-height: 88vh">
+                          <div class="formfield" style="position: relative;">
+
+                            <input type="text" id="email_to" name="email_to" placeholder="To" value="" class="borderbottomonly">
+                          <!--  <span class="selectgrouptext" style="float: left;margin: 0;">Select Groups:</span> -->
+                            <a href='#' class='select_contact_group'>Select Group</a>
+                          </div>
+                          <div class="formfield">
+                            <input type="text" id="email_subject" name="email_subject" placeholder="Subject" value="" class="borderbottomonly">
+                          </div>
+                       
+
+                          <div class="formfield">
+                              <select  id="send-email-sel">
+                                  <option value="">Select Field</option>
+                                  <option value="First Name">First Name</option>
+                                  <option value="Last Name">Last Name</option>
+                                  <option value="Full Name">Full Name</option>
+                                  <option value="Address">Address</option>
+                                  <option value="City">City</option>
+                                  <option value="State">State</option>
+                                  <option value="Zip Code">Zip Code</option>
+                                  <option value="Phone">Phone</option>
+                                  <option value="Email Address">Email Address</option>
+                                  <option value="Signature">Signature</option>
+
+                                  <option value="my_email">My Email</option>
+                                  <option value="my_first_name">My First Name</option>
+                                  <option value="my_last_name">My Last Name</option>
+                                  <option value="my_website">My Website</option>
+                                  <option value="my_address">My Address</option>
+                                  <option value="my_city">My City</option>
+                                  <option value="my_state">My State</option>
+                                  <option value="my_zip">My Zip</option>
+                                  <option value="my_phonenumber">My Phone Number</option>
+
+                              </select>
+
+                          </div>
+
+                          <div class="formfield">
+                              <div class="hidden-email-templates" style="height:0px; width:0px; visibility:hidden; opacity:0"></div>
+                              <select name="" class="select_email_template">
+                              </select>
+                          </div>
+
+                          <div class="formfield" style="height: auto;">
+                            <textarea id="email_body" name="email_body" placeholder="Write your message here"></textarea>
+
+                          </div>
+                          <div class="buttonwrapper">
+                            <div class="buttonbacksave">
+                            <div class="btnfullwidthpink">
+                              <input id="send-email-btn" class="paddingtwenty" type="button" data-mini="true" style="margin:0px;" class="custom_btn" name="" value="Send">
+                            </div>
+                            </div>
+ 
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    </div><!-- /page -->
+      </div><!-- /page -->
 
-    <!-- Start of second page -->
-    <div data-role="page" id="email_dialog" data-theme="a">
+      <div data-role="page" id="page_settings" data-theme="a">
 
-        <div id="dialog_content" data-role="content" data-theme="a">
-            <div style="padding-top: 20%;">
+          <div id="header" data-role="header" data-position="inline" style="background: #31bfcb;color: #fff;position: fixed;width: 100%;">
+              <div class="header_nav_btn" style="position: absolute;top: 3px; display: none;">
+                  <a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all" style="margin-top: -3px;">No text</a>
+              </div>
+              <h1>Simple Connector</h1>
+          </div>
 
-                <form id="send-email-form" method="POST" action="#"  data-ajax="false">
+          <div id="" data-role="content" data-theme="a">
+              <div class="iconwrapper">
+                <div class="align-left">
+                <a href="#" class="goto_settings_page"> <img src="images/settings.png" width="50" />
+                  Settings
+                </a>
+                </div>
+                <div class="align-left">
+                  <a id="page_logout" href="#"><img src="images/out.png" width="50" />Log Out</a>
+                </div>
+              </div>
+          </div>
+      </div><!-- /page -->
 
-                  <div id="formwrapper">
-                    <div class="formfield">
-                      <input type="text" id="email_to" name="email_to" placeholder="To" value="">
+
+      <div  id="settings_page_slide" class="viewcontact slide-page-container" data-theme="a" style="background:#fff;position: fixed;top:0px;margin-left: 100%;display: block;z-index: 1000;top: 0px;">
+
+          <div  data-role="content" data-theme="a" style="padding-top:40px;">
+            <!--<div id="topheaderform">
+              <ul style="padding-bottom: 30px;padding-top: 5px;">
+              <li style="width: 28%;" data-role="none">  <a href="#page_settings" style="margin-left:0; padding:20px;" data-mini="true" data-container="settings_page_slide" class="custom_btn "><img src="images/backarrow.png" width="10"/> Back</a></li>
+                <li style="width: 37%;" data-role="none"></li>
+                <li class="textright jqm" data-role="none"></li>
+              </ul>
+            </div> -->
+
+              <div class="settingspageform">
+
+                <div data-role="tabs" id="tabs">
+
+                  <ul class="nav nav-tabs">
+                    <li class="nav-item active">
+                      <a data-toggle="tab" class="nav-link active" href="#personal">Personal</a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#address">Address</a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#other">Other</a>
+                    </li>
+                    <li class="nav-item">
+                      <a data-toggle="tab" class="nav-link" href="#signature">Signature</a>
+                    </li>
+                  </ul>
+
+                  <form id="user_settings_form" method="POST" action="">
+                  <div class="tab-content">
+                    <div id="personal" class="tab-pane fade in active">
+
+
+                        <div id="formwrapper">
+
+                          <div class="formfield">
+                            <input type="text" class="form-control borderbottomonly user_fname"  name="edit-settings_first_name" placeholder="First Name"><!--?=$user->userInfo['email'];?-->
+                          </div>
+
+                          <div class="formfield">
+                            <input type="text" class="form-control borderbottomonly user_lname"  name="edit-settings_last_name" placeholder="Last Name"><!--?=$user->userInfo['email'];?-->
+                          </div>
+
+                          <div class="formfield">
+                            <input type="text" class="form-control borderbottomonly user_email"  name="edit-settings_email" disabled="" placeholder="Login Email"><!--?=$user->userInfo['email'];?-->
+                          </div>
+
+                        </div>
+
                     </div>
-                    <div class="formfield">
-                      <input type="text" id="email_subject" name="email_subject" placeholder="Subject" value="">
+                    <div id="address" class="tab-pane fade">
+
+                      <div id="formwrapper">
+
+                        <div class="formfield">
+                          <input type="text" class="form-control borderbottomonly user_address"  name="edit-settings_address" placeholder="Address"><!--?=$user->userInfo['email'];?-->
+                        </div>
+
+                        <div class="formfield">
+                          <input type="text" class="form-control borderbottomonly user_city"  name="edit-settings_city" placeholder="City"><!--?=$user->userInfo['email'];?-->
+                        </div>
+
+                        <div class="formfield">
+                          <input maxlength="2" class="form-control borderbottomonly user_state" value="" name="edit-settings_state" placeholder="State"><!--?=$user->userInfo['email'];?-->
+                        </div>
+
+                        <div class="formfield">
+                          <input maxlength="5" class="form-control borderbottomonly user_zip" value="" name="edit-settings_zip" placeholder="Zip"><!--?=$user->userInfo['email'];?-->
+                        </div>
+
+                      </div>
+
                     </div>
-                    <div class="formfield">
-                      <input type="text" id="from" name="from" value="" placeholder="From" readonly>
+                    <div id="other" class="tab-pane fade">
+
+                        <div id="formwrapper">
+                          <div class="formfield">
+                            <input type="text" class="form-control borderbottomonly user_website" value="" name="edit-settings_website" placeholder="Website"><!--?=$user->userInfo['email'];?-->
+                          </div>
+
+                          <div class="formfield">
+                            <input type="text" class="form-control borderbottomonly test123 user_company" value="" name="edit-settings_company" placeholder="Company"><!--?=$user->userInfo['email'];?-->
+                          </div>
+
+                          <div class="formfield">
+                            <input type="text" class="form-control borderbottomonly user_facebook_url`"  name="edit-settings_facebook_url" placeholder="Facebok URL"><!--?=$user->userInfo['email'];?-->
+                          </div>
+
+                          <div class="formfield">
+                            <input type="text" class="form-control borderbottomonly user_notif_email"  name="edit-settings_notif_email" placeholder="Notification Email"><!--?=$user->userInfo['email'];?-->
+                          </div>
+
+                          <div class="formfield">
+                            <input maxlength="20" class="form-control borderbottomonly user_phone" value="" name="edit-settings_phone" placeholder="Phone"><!--?=$user->userInfo['email'];?-->
+                          </div>
+
+                        </div>
                     </div>
-                    <div class="formfield">
-                      <textarea id="email_body" name="email_body" placeholder="Write your message here"></textarea>
-                    </div>
-                    <div class="buttonwrapper">
-                    <div class="align-left">
-                      <input id="send-email-btn" style="background: #fff;" type="button" data-mini="true" class="custom_btn" name="" value="Send Email">
-                    </div>
-                    <div class="align-left">
-                      <a href="#prospect" data-mini="true" class="ui-btn custom_btn">Back</a>
+                    <div id="signature" class="tab-pane fade">
+
+
+                      <div id="formwrapper">
+                        <div class="formfield" style="height: 100%;">
+                          <span>Signature</span>
+                          <div class="redactor-box" role="application" dir="ltr">
+                            <ul class="redactor-toolbar" id="redactor-toolbar-3" role="toolbar" style="position: relative; width: auto; top: 0px; left: 0px; visibility: visible;">
+                              <li>
+                                <a href="javascript:void(null);" alt="Bold" rel="bold" class="re-button re-bold re-button-icon" role="button" aria-label="Bold" tabindex="-1">
+                                  <i class="re-icon-bold"></i>
+                                  <span class="re-button-tooltip">Bold</span>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="javascript:void(null);" alt="Italic" rel="italic" class="re-button re-italic re-button-icon" role="button" aria-label="Italic" tabindex="-1">
+                                  <i class="re-icon-italic"></i>
+                                  <span class="re-button-tooltip">Italic</span>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="javascript:void(null);" alt="Link" rel="link" class="re-button re-link re-button-icon redactor-toolbar-link-dropdown" role="button" aria-label="Link" tabindex="-1" aria-haspopup="true">
+                                  <i class="re-icon-link"></i>
+                                  <span class="re-button-tooltip">Link</span>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="javascript:void(null);" alt="Lists" rel="lists" class="re-button re-lists re-button-icon redactor-toolbar-link-dropdown" role="button" aria-label="Lists" tabindex="-1" aria-haspopup="true">
+                                  <i class="re-icon-lists"></i>
+                                  <span class="re-button-tooltip">Lists</span>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="javascript:void(null);" alt="Line" rel="horizontalrule" class="re-button re-horizontalrule re-button-icon" role="button" aria-label="Line" tabindex="-1">
+                                  <i class="re-icon-horizontalrule"></i>
+                                  <span class="re-button-tooltip" style="display: none; margin-left: -21px;">Line</span>
+                                </a>
+                              </li>
+                            </ul>
+                            <span class="redactor-voice-label" id="redactor-voice-3" aria-hidden="false">Rich text editor</span>
+                            <div class="redactor-layer redactor-styles redactor-layer-img-edit redactor-in" aria-labelledby="redactor-voice-3" role="presentation" id="redactor-uuid-3" contenteditable="true" spellcheck="true" dir="ltr" style="min-height: 40px;">
+                              <p>&#8203;</p>
+                            </div>
+                            <textarea id="textarea_settings" name="edit-settings_signature" style="display: none;"></textarea>
+                          </div>
+                        </div><!-- formfield -->
+                      </div>
                     </div>
                   </div>
-                  </div>
-                </form>
-            </div>
-        </div>
-    </div><!-- /page -->
 
-    <div data-role="page" id="page_settings" data-theme="a">
+                  <div class="alignleft halfwidth" style="width:48%">
+                      <a  data-mini="true" data-container="settings_page_slide" class="ui-btn custom_btn" style="background: #31bfcb;border-radius:10px;"><img src="images/backarrow.png" width="10"> Back</a>
+                    </div>
+                    <div class="alignleft halfwidth savesettingsbtn" style="padding: 9px; text-align:center; margin: 0 11px;  width: 45%;">
+                      <input type="submit" class="save-user-settings-btn" value="Save"/>
+                    </div>
 
-        <div id="dialog_content" data-role="content" data-theme="a">
-            <div class="iconwrapper">
-              <div class="align-left">
-              <a href="#"> <img src="images/settings.png" width="50" />
-                Settings
-              </a>
+                  </form>
+                </div>
+
+
+            
+
+
               </div>
-              <div class="align-left">
-                <a id="page_logout" href="#"><img src="images/out.png" width="50" />Log Out</a>
-              </div>
-            </div>
-        </div>
-    </div><!-- /page -->
 
 
 
 
-
+          </div>
+      </div><!-- /page -->
 
     <div id="hdn-inputs"></div>
-<script src="https://kit.fontawesome.com/acdfcd3575.js"></script>
+
+    </section>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://kit.fontawesome.com/acdfcd3575.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
     <script type="text/javascript" src="js/datatables.min.js"></script>
+    <script type="text/javascript" src="js/fastclick.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
+
+
+    <!-- Include Editor style. -->
+    <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.0.5/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+
+    <!-- Include JS file. -->
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@3.0.5/js/froala_editor.pkgd.min.js'></script>
+    <script>
+    $(document).ready(function(){
+
+
+    });
+    </script>
+
+
     <script type="text/javascript">
+        var attachFastClick = Origami.fastclick;
+        attachFastClick(document.body);
+        //FastClick.attach(document.body);
+
         app.initialize();
+
+        $(document).ready(function(){
+            FUNC.init();
+
+            setTimeout (() => {
+                $(".custom-splash-screen").fadeOut();
+                $(".main-content-wrapper").fadeIn();
+            },3000);
+
+
+        });
 
         $(document).on('pageinit', function() {
             //initialize required functions
@@ -498,9 +1271,12 @@
             if (localStorage.getItem('uid') !== null) {
                 FUNC.contact.init();
                 FUNC.user.getTodaysTask();
+                FUNC.contact.getContacts();
             }
 
+
             $('#login_btn').on('tap', function(e){
+              $('#login_btn').fadeTo("fast", .1);
                 //alert($("#login-form").serialize());
                 $.ajax({
                     type: "GET",
@@ -511,8 +1287,11 @@
                     beforeSend: function() {
                         //$("#login_btn").val("Please wait...");
                         //$("#login_btn").attr("disabled","disabled");
+                        //$("#login_btn").addClass("status-loading");
+                        $('#login_btn').fadeTo("fast", .1);
                     },
                     success: function(response) {
+                        $('#login_btn').fadeTo("fast", 1);
                         console.log(response);
 
                         if (response.error == true) {
@@ -545,6 +1324,12 @@
             });
 
             //console.log(localStorage);
+
+            //navigator.splashscreen.hide();
+
+
+
+
         });
     </script>
 
